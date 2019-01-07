@@ -18,7 +18,8 @@ When trying to learn new countries and their characteristics there are many geog
 
 In this app you can search all kinds of characteristics about countries, compare them and test your knowledge about them.
 
-![](doc/Screens.png)
+![](doc/search.png)
+![](doc/quiz.png)
 
 ### Features
 
