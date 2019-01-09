@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    tools:context=".CountryDetailActivity">
+
+    <TextView
+        android:id="@+id/countryNameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/check_name"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/image_view"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/capitalView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/capital" />
+
+            <TextView
+                android:id="@+id/populationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/population" />
+
+            <TextView
+                android:id="@+id/areaView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/area" />
+
+            <TextView
+                android:id="@+id/languageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/language" />
+
+            <TextView
+                android:id="@+id/weatherView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weather" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/capitalOutputView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/output" />
+
+            <TextView
+                android:id="@+id/populationOutputView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/output" />
+
+            <TextView
+                android:id="@+id/areaOutputView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/output" />
+
+            <TextView
+                android:id="@+id/languageOutputView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/output" />
+
+            <TextView
+                android:id="@+id/weatherOutputView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/output" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/compareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="@string/compare" />
+
+</LinearLayout>

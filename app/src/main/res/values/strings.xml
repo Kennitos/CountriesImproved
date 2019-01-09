@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Countries</string>
+
+    <string name="choose_char">Choose your characteristics:</string>
+    <string name="choose_reg">Choose your region(s):</string>
+    <string name="compare">Compare</string>
+    <string name="output">- Output</string>
+
+    <string name="name">Name</string>
+    <string name="check_name">Country name</string>
+    <string name="capital">Capital</string>
+    <string name="population">Population</string>
+    <string name="weather">Weather</string>
+    <string name="area">Area</string>
+    <string name="language">Language</string>
+    <string name="flag">Flag</string>
+
+    <string name="africa">Africa</string>
+    <string name="asia">Asia</string>
+    <string name="europe">Europe</string>
+    <string name="oceania">Oceania</string>
+    <string name="north_america">North America</string>
+    <string name="south_america">South America</string>
+
+    <string name="continue_str">Continue</string>
+    <string name="start_quiz">Start quiz!</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="search_button">Search a country</string>
+    <string name="compare_button">Compare countries</string>
+    <string name="quiz_button">Quiz the countries</string>
+    <string name="score_button">See scores</string>
+
+    <string name="score_text">SCORE</string>
+    <string name="time_left_text">TIME LEFT</string>
+    <string name="questions_left_text">QUESTIONS</string>
+    <string name="region">Region here</string>
+    <string name="question">Questions here</string>
+    <string name="image_view">This is an image of the map/print of the country</string>
+
+    <string name="open">Open questions</string>
+    <string name="multi">Multiple choice</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="choose_question">Choose your question type</string>
+    <string name="choose_difficulty">Choose your difficulty</string>
+
+    <string name="button">Button</string>
+
+    <string name="search_c">Search a country</string>
+
+    <string name="autocomplete">Type a country...</string>
+
+</resources>
