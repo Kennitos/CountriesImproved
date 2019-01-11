@@ -40,8 +40,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Country selected = (Country) adapterView.getAdapter().getItem(i);
-                Toast.makeText(getApplicationContext() ,"Clicked " + selected.getCapital(),Toast.LENGTH_LONG).show();
-
                 Intent intent = new Intent(getApplicationContext(), CountryDetailActivity.class);
                 intent.putExtra("selected_country",selected);
                 startActivity(intent);
