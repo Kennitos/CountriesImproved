@@ -8,7 +8,7 @@ I decided to add a multiplechoice option for the quiz, this way it will be less 
 I decided to put the RegionActivity and CharActivity together into one activity called RegCharActivity. This way the user has to visit less activities before starting the quiz.
 
 #### day 4 (thursday)
-Lorem ipsum dolor sit amet...
+I got the API working properly with the application and finished navigation through the activities, I didn't make any changes in my plan.
 
 #### day 5 (friday)
 I decided to change to autocomplete function with strings from an arraylist with all the countries names in SearchActivity to an autocomplete function with objects (the instances of the class Country). This can be achieved to add an override function in the class Country that will display the name.
