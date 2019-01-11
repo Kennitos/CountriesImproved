@@ -40,7 +40,7 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                 JSONObject countryObject = response.getJSONObject(i);
                 String name = countryObject.getString("name");
                 String capital = countryObject.getString("capital");
-                String iso = countryObject.getString("alpha2Code");
+                String iso = countryObject.getString("alpha2Code").toLowerCase();
                 String region = countryObject.getString("region");
                 String subregion = countryObject.getString("subregion");
                 String flag = countryObject.getString("flag");

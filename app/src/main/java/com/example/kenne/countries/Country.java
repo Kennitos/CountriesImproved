@@ -20,8 +20,13 @@ public class Country implements Serializable {
         this.area = area;
         this.population = population;
         this.flag = flag;
+    }
 
-//        instances.add(name);
+//    This override function causes it to show 'Zimbabwe' instead of 'com.example.kenne.countries.Country@127c0a'
+//    when they are put into an ArrayList. This is a must for the autocompletion function!
+    @Override
+    public String toString() {
+        return name;
     }
 
     public String getName() {

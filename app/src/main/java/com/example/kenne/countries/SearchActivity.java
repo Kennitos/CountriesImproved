@@ -1,20 +1,21 @@
 package com.example.kenne.countries;
 
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private static ArrayList<String> allNames;
-//    private static String[] COUNTRIES = new String[]{};
-//    private static String[] COUNTRIES
+    ArrayList<String> COUNTRIES_STRING = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +23,58 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         Intent intent = getIntent();
-        ArrayList<Country> countriesArray = (ArrayList) intent.getStringArrayListExtra("countries");
-        Log.d("connect_test","all countries:"+countriesArray.get(0).getName());
+        ArrayList<Country> COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
+        Log.d("all_names","ArrayList"+COUNTRIES);
 
-        for(int i = 0; i < countriesArray.size(); i++){
-            allNames.add(countriesArray.get(i).getName());
+//        Create a second ArrayList besides COUNTRIES, but with strings as type instead of objects
+        for(int i = 0; i < COUNTRIES.size(); i++){
+            String name = COUNTRIES.get(i).getName();
+            COUNTRIES_STRING.add(name);
+        }
+
+        AutoCompleteTextView editText = findViewById(R.id.autoCompleteCountry);
+        ArrayAdapter<Country> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, COUNTRIES);
+        editText.setAdapter(adapter);
+        editText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Country selected = (Country) adapterView.getAdapter().getItem(i);
+                Toast.makeText(getApplicationContext() ,"Clicked " + selected.getCapital(),Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getApplicationContext(), CountryDetailActivity.class);
+                intent.putExtra("selected_country",selected);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+//      clear the text, because of this when you return to this page the EditText will be empty
+//      instead of being filled with the previous country
+//      Log.d("clear_test","edit now clear");
+        super.onResume();
+        AutoCompleteTextView editText = findViewById(R.id.autoCompleteCountry);
+        editText.setText("");
+    }
+
+
+    public void goToCountryDetail(View view){
+        EditText edit = findViewById(R.id.autoCompleteCountry);
+        String countryInput = edit.getText().toString();
+        Log.d("all_names",""+countryInput+' '+ COUNTRIES_STRING.contains(countryInput));
+
+        // check if countryInput is in the ArrayList
+        if(COUNTRIES_STRING.contains(countryInput)){
+            Intent intent = new Intent(this, CountryDetailActivity.class);
+            intent.putExtra("country_name",countryInput);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(this,"This country doesn't exist",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Try again",Toast.LENGTH_LONG).show();
         }
     }
 
-    public void goToCountryDetail(View view){
-        Intent intent = new Intent(this, CountryDetailActivity.class);
-        startActivity(intent);
-    }
 }

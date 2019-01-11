@@ -27,7 +27,8 @@ public class HomeActivity extends AppCompatActivity implements CountriesRequest.
     public void gotCountries(ArrayList<Country> countries) {
         Log.d("connect_test","Runt gotCountries");
         try {
-            Log.d("connect_test","Everything loaded in!"+countries.get(249).getName());
+            Log.d("connect_test","Everything loaded in! -name: "+countries.get(249)+' '
+                    +countries.get(249).getArea());
             Toast.makeText(this,"All countries loaded in!",Toast.LENGTH_LONG).show();
             allCountries = countries;
 
@@ -42,17 +43,22 @@ public class HomeActivity extends AppCompatActivity implements CountriesRequest.
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
-    public void goToRegion(View view){
-        Intent intent = new Intent(this, RegionActivity.class);
-        intent.putExtra("countries",allCountries);
-        startActivity(intent);
-    }
-
+//    FUNCTIONS FOR THE FOUR BUTTONS
     public void goToSearchActivity(View view){
         Intent intent = new Intent(this,SearchActivity.class);
         intent.putExtra("countries",allCountries);
         startActivity(intent);
     }
 
+    public void goToCompareActivity(View view){
+        Intent intent = new Intent(this, CompareActivity.class);
+        intent.putExtra("countries",allCountries);
+        startActivity(intent);
+    }
 
+    public void goToRegion(View view){
+        Intent intent = new Intent(this, RegionActivity.class);
+        intent.putExtra("countries",allCountries);
+        startActivity(intent);
+    }
 }

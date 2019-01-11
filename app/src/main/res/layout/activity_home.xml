@@ -25,6 +25,7 @@
         android:id="@+id/compareCountriesButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="goToCompareActivity"
         android:text="@string/compare_button" />
 
     <Button

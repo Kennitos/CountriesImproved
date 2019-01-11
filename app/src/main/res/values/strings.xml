@@ -51,5 +51,6 @@
     <string name="search_c">Search a country</string>
 
     <string name="autocomplete">Type a country...</string>
+    <string name="km"> km²</string>
 
 </resources>
