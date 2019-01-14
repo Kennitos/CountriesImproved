@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -29,7 +30,7 @@
 
             <TextView
                 android:id="@+id/scoreView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center" />
         </LinearLayout>
@@ -38,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -49,7 +51,7 @@
 
             <TextView
                 android:id="@+id/timeView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center" />
         </LinearLayout>
@@ -58,18 +60,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/questionstextView"
+                android:id="@+id/remainingtextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/questions_left_text" />
 
             <TextView
-                android:id="@+id/questionsView"
-                android:layout_width="match_parent"
+                android:id="@+id/remainingView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center" />
         </LinearLayout>
@@ -113,7 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
-            android:text="@string/button" />
+            android:text="@string/button"
+            android:onClick="nextQuestion"/>
 
         <Button
             android:id="@+id/bButton"
@@ -122,7 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="@string/button" />
+            android:text="@string/button"
+            android:onClick="nextQuestion"/>
     </LinearLayout>
 
     <LinearLayout
@@ -138,7 +143,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="@string/button" />
+            android:text="@string/button"
+            android:onClick="nextQuestion"/>
 
         <Button
             android:id="@+id/dButton"
@@ -147,7 +153,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="@string/button" />
+            android:text="@string/button"
+            android:onClick="nextQuestion"/>
     </LinearLayout>
 
     <Button

@@ -18,8 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CharActivity" />
-        <activity android:name=".RegionActivity" />
+        <activity android:name=".RegionCharActivity" />
         <activity android:name=".QuizActivity" />
         <activity android:name=".DifficultyActivity" />
         <activity android:name=".SearchActivity" />

@@ -32,7 +32,7 @@
         android:id="@+id/quizButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="goToRegion"
+        android:onClick="goToRegionCharActivity"
         android:text="@string/quiz_button" />
 
     <Button
