@@ -15,10 +15,26 @@ I decided to change to autocomplete function with strings from an arraylist with
 
 ### Week 2
 #### Day 6 (monday)
-Lorem ipsum dolor sit amet...
+I created the class Quiz that will generate the quiz that will be used by QuizActivity. I found a new source (wikipedia) for the images of the countries (maps). The new images also display the neighbouring countries instead of only the map imprint. However the links to more difficult to create. 
+<br>Whereas with the old link used the region and iso code as input:
+> https://raw.githubusercontent.com/djaiss/mapsicon/master/{region}/{iso}/{size}.png
+
+The new datasource use MD5 encrytion for the string "{county_name}\_in\_{region}.svg" and uses the first two letters of that encryption:
+
+> https://upload.wikimedia.org/wikipedia/commons/thumb/{first}/{first_two}/"{country_name}_in_{region}.svg/1051px-{country_name}_in_{region}.svg.png
+
+or
+> https://upload.wikimedia.org/wikipedia/commons/thumb/{first}/{first_two}/"{country_name}_in_its_region.svg/1051px-{country_name}_in_its_region.svg.png
+
+example: https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/United_Kingdom_in_Europe.svg/1051px-United_Kingdom_in_Europe.svg.png
 
 #### Day 7 (tuesday)
-Lorem ipsum dolor sit amet...
+I decided to add some improvement to the process of answering the quiz questions. There are three situations in which certain button will highlight:
+- The user taps the correct button, the button will highlight green.
+- The user taps the incorrect button, the button will highlight red and the correct button will highlight green.
+- The user doens't tap a button within the timer, the correct button will highlight green.
+
+When buttons are highlighted (green/red), the button itself will become disable for one second after which the new question is loaded. Because of this the user can't 'spam' the buttons preventing crashes and it gives the user opportunity to view the correct/incorrect answer. This also means that when the user doesn't answer in time, it will automatically load the new question.
 
 #### Day 8 (wednesday)
 Lorem ipsum dolor sit amet...
