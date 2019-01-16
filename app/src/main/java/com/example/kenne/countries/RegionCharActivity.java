@@ -78,7 +78,7 @@ public class RegionCharActivity extends AppCompatActivity {
         }
 
         if((name.isChecked() || capital.isChecked() || population.isChecked() || language.isChecked() || weather.isChecked() || flag.isChecked()) &
-                (africa.isChecked() || asia.isChecked() || europe.isChecked() || namerica.isChecked() || samerica.isChecked())){
+                (africa.isChecked() || asia.isChecked() || europe.isChecked() || oceania.isChecked() || namerica.isChecked() || samerica.isChecked())){
             Toast.makeText(this,"Arrays: "+regions+characteristics,Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, DifficultyActivity.class);
             intent.putExtra("regions",regions);

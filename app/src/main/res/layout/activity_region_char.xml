@@ -35,6 +35,7 @@
             android:id="@+id/checkEurope"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/europe" />
 
         <CheckBox
@@ -73,6 +74,7 @@
             android:id="@+id/checkName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/check_name" />
 
         <CheckBox

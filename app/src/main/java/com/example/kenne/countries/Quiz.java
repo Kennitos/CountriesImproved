@@ -46,12 +46,12 @@ public class Quiz {
         return  quiz_countries;
     }
 
-    public ArrayList<Country> select10(){
+    public ArrayList<Country> select(int x){
         ArrayList<Country> random_countries = (ArrayList<Country>)quiz_countries.clone();
         Collections.shuffle(random_countries);
 //        KAN DIT NIET IN 1 REGEL??
         ArrayList<Country> few_countries = new ArrayList<>();
-        for(int i = 0; i <10; i++){
+        for(int i = 0; i <x; i++){
             few_countries.add(random_countries.get(i));
         }
 //        Arrays.copyOf(random_countries,10);
