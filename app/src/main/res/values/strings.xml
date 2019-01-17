@@ -52,5 +52,6 @@
 
     <string name="autocomplete">Type a country...</string>
     <string name="km"> km²</string>
+    <string name="achieved">Your achieved score: </string>
 
 </resources>

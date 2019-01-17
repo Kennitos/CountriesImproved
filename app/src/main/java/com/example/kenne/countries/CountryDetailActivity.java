@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 public class CountryDetailActivity extends AppCompatActivity {
 
     Country selected;
+    ArrayList<Country> COUNTRIES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String name = intent.getStringExtra("country_name");
         selected= (Country) intent.getSerializableExtra("selected_country");
+        COUNTRIES =  (ArrayList) intent.getStringArrayListExtra("countries");
 
         TextView nameView = findViewById(R.id.countryNameView);
         TextView capitalView = findViewById(R.id.capitalOutputView);
@@ -52,5 +57,13 @@ public class CountryDetailActivity extends AppCompatActivity {
         String img_url = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+selected.getIso()+"/512.png";
         Picasso.get().load(img_url).centerCrop().resize(512, 512).into(image_view);
         //        Log.d("image_test","url: "+img_url);
+    }
+
+    public void compareSingleCountry(View view){
+        Intent intent = new Intent(this, CompareActivity.class);
+        intent.putExtra("selected", selected);
+        intent.putExtra("countries",COUNTRIES);
+        startActivity(intent);
+        finish();
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -31,13 +32,9 @@ public class QuizActivity extends AppCompatActivity {
     List<String> europeList;
     Country current;
     CountDownTimer countdown;
-    String end_url, complete_url;
+    String end_url, complete_url, accurate, accurate2;
     private int questionIndex, score, testNr;
 
-//    Button button_a = findViewById(R.id.aButton);
-//    Button button_b = findViewById(R.id.bButton);
-//    Button button_c = findViewById(R.id.cButton);
-//    Button button_d = findViewById(R.id.dButton);
 
     // removeLastChar will transform 'Moldova ' to 'Moldova' and 'Isle of Man ' to 'Isle of Man'
     private static String removeLastChar(String str) {
@@ -45,9 +42,7 @@ public class QuizActivity extends AppCompatActivity {
         if(Character.isWhitespace(lastChar)){
             return str.substring(0, str.length() - 1);
         }
-        else {
-            return str;
-        }
+        else { return str; }
     }
 
     @Override
@@ -101,6 +96,9 @@ public class QuizActivity extends AppCompatActivity {
         String lastCharSpace = removeLastChar(split_name[0]);
         if(current.getRegion().equals("Europe")){
             end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Europe.svg";
+            if(current.getName().equals("United Kingdom of Great Britain and Northern Ireland")){
+                end_url = "United_Kingdom_in_Europe.svg";
+            }
         }
         else if(current.getRegion().equals("Africa")){
             end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Africa.svg";
@@ -112,16 +110,42 @@ public class QuizActivity extends AppCompatActivity {
         }
         Log.d("check_current",""+end_url);
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(end_url.getBytes(), 0, end_url.length());
-            String hashString = new BigInteger(1, md.digest()).toString(16);
+            // bron r.113-118 - https://stackoverflow.com/questions/3934331/how-to-hash-a-string-in-android
+            // tijmen has the same
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            digest.update(end_url.getBytes(Charset.forName("US-ASCII")),0,end_url.length());
+            byte[] magnitude = digest.digest();
+            BigInteger bi = new BigInteger(1, magnitude);
+            String hashString = String.format("%0" + (magnitude.length << 1) + "x", bi);
+
+
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            md.update(end_url.getBytes(), 0, end_url.length());
+//            String hashString = new BigInteger(1, md.digest()).toString(16);
+
+//            BigInteger bigInt = new BigInteger(1, md.digest());
+//            accurate = String.format("%0"+(magnitude.byteArray ), bigInt);
+//            accurate2 = String.format("%032x",bigInt);
+//            formatter.format("%02x", b)
+
             String first = Character.toString(hashString.charAt(0));
             String first_two = first+Character.toString(hashString.charAt(1));
+
+
+            // Hardcode some important countries of which the generated md5 hash an accurate md5
+            // Bulgaria:
+//            if(current.getName().equals("Bulgaria")){
+//                first= "0";
+//                first_two= "0e";
+//            }
+
             complete_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/"+first+"/"+first_two+"/"+end_url+"/1051px-"+end_url+".png";
             // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
 
 
              Log.d("check_current",""+first+" "+first_two+" "+hashString);
+             Log.d("check_current",""+accurate);
+             Log.d("check_current",""+accurate2);
              Log.d("check_current",""+complete_url);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -139,7 +163,7 @@ public class QuizActivity extends AppCompatActivity {
                 countdown = new CountDownTimer(11000, 1000) {
                     public void onTick(long millisUntilFinished) {
                         timeView.setText(String.valueOf(millisUntilFinished / 1000));
-                        if(millisUntilFinished<1000){
+                        if(millisUntilFinished<1001){
                             String[] buttonNames = {"a","b","c","d"};
                             List<String> buttonList = Arrays.asList( buttonNames );
 
@@ -176,6 +200,11 @@ public class QuizActivity extends AppCompatActivity {
                         }
                     }
                 }.start();
+            }
+            @Override
+            public void onError(Exception e) {
+                countdown.start();
+                Toast.makeText(getApplicationContext(),"can't load image",Toast.LENGTH_SHORT).show();
             }
         });
         if (loaded.get()) {
@@ -234,7 +263,12 @@ public class QuizActivity extends AppCompatActivity {
 
     public void nextQuestion(View view) {
         Button answerButton = (Button) view;
-        countdown.cancel();
+        try{
+            countdown.cancel();
+        } catch (Error e){
+            e.printStackTrace();
+//            countdown.start();
+        }
         String chosen_answer = answerButton.getText().toString();
         TextView timeView = findViewById(R.id.timeView);
         int time = Integer.parseInt(timeView.getText().toString());

@@ -42,6 +42,10 @@ public class Quiz {
                 Log.d("select_countries","country: "+item.getName()+" "+item.getRegion());
                 quiz_countries.add(item);
             }
+            if(regions.contains(item.getSubregion())){
+                Log.d("select_countries","country: "+item.getName()+" "+item.getRegion());
+                quiz_countries.add(item);
+            }
         }
         return  quiz_countries;
     }

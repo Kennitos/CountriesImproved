@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements CountriesRequest.Callback{
 
-    ArrayList<Country> allCountries;
+    public static ArrayList<Country> allCountries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,11 +1,13 @@
 package com.example.kenne.countries;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity {
 
     ArrayList<String> COUNTRIES_STRING = new ArrayList<>();
+    ArrayList<Country> COUNTRIES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         Intent intent = getIntent();
-        ArrayList<Country> COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
+        COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
         Log.d("all_names","ArrayList"+COUNTRIES);
 
 //        Create a second ArrayList besides COUNTRIES, but with strings as type instead of objects
@@ -42,9 +45,23 @@ public class SearchActivity extends AppCompatActivity {
                 Country selected = (Country) adapterView.getAdapter().getItem(i);
                 Intent intent = new Intent(getApplicationContext(), CountryDetailActivity.class);
                 intent.putExtra("selected_country",selected);
+                intent.putExtra("countries",COUNTRIES);
+
+                View v = getCurrentFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+
                 startActivity(intent);
+                finish();
             }
         });
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+//        View v = getCurrentFocus();
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(v.getWindowToken(),0);
     }
 
     @Override
