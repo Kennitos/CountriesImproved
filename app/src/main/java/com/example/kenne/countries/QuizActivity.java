@@ -27,13 +27,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QuizActivity extends AppCompatActivity {
 
-    ArrayList<Country> COUNTRIES;
-    ArrayList<Country> selected_countries;
+    ArrayList<Country> COUNTRIES, selected_countries;
+    ArrayList<Country> correct, incorrect;
     List<String> quizList;
+    ArrayList<String> regions;
     Country current;
     CountDownTimer countdown;
-    String end_url, complete_url, accurate, accurate2;
-    private int questionIndex, score, testNr;
+    String end_url, complete_url;
+    int questionIndex, score, testNr;
 
 
     // removeLastChar will transform 'Moldova ' to 'Moldova' and 'Isle of Man ' to 'Isle of Man'
@@ -51,8 +52,11 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         testNr = 14;
 
+        correct = new ArrayList<>();
+        incorrect = new ArrayList<>();
+
         Intent intent = getIntent();
-        ArrayList<String> regions = intent.getStringArrayListExtra("regions");
+        regions = intent.getStringArrayListExtra("regions");
         ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
         String type = intent.getStringArrayListExtra("difficulty").get(0);
         String difficulty = intent.getStringArrayListExtra("difficulty").get(1);
@@ -98,6 +102,12 @@ public class QuizActivity extends AppCompatActivity {
             end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Europe.svg";
             if(current.getName().equals("United Kingdom of Great Britain and Northern Ireland")){
                 end_url = "United_Kingdom_in_Europe.svg";
+            }
+            if(current.getName().equals("Russian Federation")){
+                end_url = "Russia_in_Europe.svg";
+            }
+            if(current.getName().equals("Republic of Kosovo")){
+                end_url = "Kosovo_in_Europe_(de-facto).svg";
             }
         }
         else if(current.getRegion().equals("Africa")){
@@ -163,6 +173,7 @@ public class QuizActivity extends AppCompatActivity {
 //        Picasso.get().load(complete_url).resize(650, 650).into(imageView);
         // removed .centerCrop()
 
+        // bron - 'https://stackoverflow.com/questions/25749055/how-to-test-if-an-image-is-fully-loaded-with-picasso'
         final AtomicBoolean loaded = new AtomicBoolean();
         Picasso.get().load(complete_url).resize(650, 650).into(imageView, new Callback.EmptyCallback() {
             @Override public void onSuccess() {
@@ -171,6 +182,7 @@ public class QuizActivity extends AppCompatActivity {
                     public void onTick(long millisUntilFinished) {
                         timeView.setText(String.valueOf(millisUntilFinished / 1000));
                         if(millisUntilFinished<1001){
+                            incorrect.add(current);
                             String[] buttonNames = {"a","b","c","d"};
                             List<String> buttonList = Arrays.asList( buttonNames );
 
@@ -199,6 +211,9 @@ public class QuizActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "All questions done!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), CurrentScoreActivity.class);
                             intent.putExtra("score",score);
+                            intent.putExtra("regions",regions);
+                            intent.putExtra("correct",correct);
+                            intent.putExtra("incorrect", incorrect);
                             startActivity(intent);
                             finish();
                         } else {
@@ -281,6 +296,7 @@ public class QuizActivity extends AppCompatActivity {
         int time = Integer.parseInt(timeView.getText().toString());
         // Check if the chosen answer is the correct one
         if (chosen_answer.equals(current.getName())) {
+            correct.add(current);
             score += time * 10;
             answerButton.setBackgroundColor(Color.GREEN);
             final Toast score_toast = Toast.makeText(this,"+"+time * 10+" points",Toast.LENGTH_SHORT);
@@ -294,6 +310,7 @@ public class QuizActivity extends AppCompatActivity {
             }, 750);
         }
         if (!chosen_answer.equals(current.getName())) {
+            incorrect.add(current);
             answerButton.setBackgroundColor(Color.RED);
 
             String[] buttonNames = {"a","b","c","d"};
@@ -316,6 +333,9 @@ public class QuizActivity extends AppCompatActivity {
             Toast.makeText(this, "All questions done!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CurrentScoreActivity.class);
             intent.putExtra("score", score);
+            intent.putExtra("regions",regions);
+            intent.putExtra("correct",correct);
+            intent.putExtra("incorrect", incorrect);
             // Use finish() to make it not possible to go back to this page from the highscore activity
             startActivity(intent);
             finish();

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class CurrentScoreActivity extends AppCompatActivity implements ScoreRequest.Callback, Response.Listener, Response.ErrorListener{
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,21 +24,22 @@ public class CurrentScoreActivity extends AppCompatActivity implements ScoreRequ
 
         Intent intent = getIntent();
         int score = intent.getIntExtra("score",0);
+        ArrayList<String> regions = intent.getStringArrayListExtra("regions") ;
+        ArrayList<Country> correct = (ArrayList) intent.getStringArrayListExtra("correct");
+        ArrayList<Country> incorrect = (ArrayList) intent.getStringArrayListExtra("incorrect");
 
         TextView scoreView = findViewById(R.id.scoreInputView);
         scoreView.setText(String.valueOf(score));
 
-        // Create a array and post it on 'http://ide50-kennitos.cs50.io:8080/list'
-        ArrayList combine_array = new ArrayList<>();
-        combine_array.add(score);
-        combine_array.add("Kennet");
-        postScore(combine_array);
+        // Create a scoreItem and post it on 'http://ide50-kennitos.cs50.io:8080/list'
+        ScoreItem currentScore = new ScoreItem("Kennet",score,regions,correct,incorrect);
+        postScore(currentScore);
     }
 
-    public void postScore(ArrayList input_array){
+    public void postScore(ScoreItem scoreItem){
         String url = "http://ide50-kennitos.cs50.io:8080/list";
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        PostScoreRequest request = new PostScoreRequest(Request.Method.POST, url, this, this, input_array);
+        PostScoreRequest request = new PostScoreRequest(Request.Method.POST, url, this, this, scoreItem);
         queue.add(request);
     }
 
