@@ -37,13 +37,17 @@ public class Quiz {
     public ArrayList<Country> selectCountries(){
         for(int i = 0; i < countries.size(); i++){
             Country item = countries.get(i);
-//            Log.d("select_countries","region: "+item.getRegion()+regions);
+//            Log.d("select_countries","region/subregion "+item.getRegion()+item.getSubregion()+regions);
             if(regions.contains(item.getRegion())){
                 Log.d("select_countries","country: "+item.getName()+" "+item.getRegion());
                 quiz_countries.add(item);
             }
             if(regions.contains(item.getSubregion())){
                 Log.d("select_countries","country: "+item.getName()+" "+item.getRegion());
+                quiz_countries.add(item);
+            }
+            if(regions.contains("North America")&(item.getSubregion().equals("Northern America")|| item.getSubregion().equals("Central America")
+                    || item.getSubregion().equals("Caribbean"))){
                 quiz_countries.add(item);
             }
         }

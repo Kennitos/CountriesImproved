@@ -29,7 +29,7 @@ public class QuizActivity extends AppCompatActivity {
 
     ArrayList<Country> COUNTRIES;
     ArrayList<Country> selected_countries;
-    List<String> europeList;
+    List<String> quizList;
     Country current;
     CountDownTimer countdown;
     String end_url, complete_url, accurate, accurate2;
@@ -49,7 +49,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        testNr = 20;
+        testNr = 14;
 
         Intent intent = getIntent();
         ArrayList<String> regions = intent.getStringArrayListExtra("regions");
@@ -62,12 +62,12 @@ public class QuizActivity extends AppCompatActivity {
         ArrayList<Country> testcountries = testQuiz.selectCountries();
         selected_countries = testQuiz.select(testNr);
 
-        europeList = new ArrayList<>();
+        quizList = new ArrayList<>();
         for(int i = 0; i < selected_countries.size(); i++){
-            europeList.add(selected_countries.get(i).getName());
+            quizList.add(selected_countries.get(i).getName());
         }
-        Collections.shuffle(europeList);
-        Log.d("check_random",""+europeList);
+        Collections.shuffle(quizList);
+        Log.d("check_random",""+quizList);
         score = 0;
         questionIndex = 0;
         //        Toast.makeText(this,""+testcountries,Toast.LENGTH_LONG).show();
@@ -102,9 +102,14 @@ public class QuizActivity extends AppCompatActivity {
         }
         else if(current.getRegion().equals("Africa")){
             end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Africa.svg";
-        }
-        else if(current.getSubregion().equals("South America")){
+        } else if(current.getSubregion().equals("South America")){
             end_url = lastCharSpace.replaceAll(" ", "_")+"_in_South_America.svg";
+        } else if(current.getSubregion().equals("Northern America") || current.getSubregion().equals("Central America")){
+            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_North_America.svg";
+        } else if(current.getSubregion().equals("Caribbean")){
+            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_North_America.svg";
+        } else if(current.getRegion().equals("Oceania")){
+            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Oceania.svg";
         } else{
             end_url = lastCharSpace.replaceAll(" ", "_")+"_in_its_region.svg";
         }
@@ -142,10 +147,7 @@ public class QuizActivity extends AppCompatActivity {
             complete_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/"+first+"/"+first_two+"/"+end_url+"/1051px-"+end_url+".png";
             // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
 
-
              Log.d("check_current",""+first+" "+first_two+" "+hashString);
-             Log.d("check_current",""+accurate);
-             Log.d("check_current",""+accurate2);
              Log.d("check_current",""+complete_url);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -153,7 +155,12 @@ public class QuizActivity extends AppCompatActivity {
 
 //        StackOverflow link
 //        https://stackoverflow.com/questions/25749055/how-to-test-if-an-image-is-fully-loaded-with-picasso
-        Picasso.get().load(complete_url).resize(650, 650).into(imageView);
+        if(current.getSubregion().equals("South America")){
+            Picasso.get().load(complete_url).resize(250, 650).into(imageView);
+        } else {
+            Picasso.get().load(complete_url).resize(650, 650).into(imageView);
+        }
+//        Picasso.get().load(complete_url).resize(650, 650).into(imageView);
         // removed .centerCrop()
 
         final AtomicBoolean loaded = new AtomicBoolean();
@@ -235,11 +242,11 @@ public class QuizActivity extends AppCompatActivity {
 //        answerList.add("option");
 //        answerList.add("option");
         answerList.add(current.getName());
-        Collections.shuffle(europeList);
+        Collections.shuffle(quizList);
         for (int i = 0; i < 6; i++) {
-            if (!answerList.contains(europeList.get(i))) {
+            if (!answerList.contains(quizList.get(i))) {
                 if(answerList.size()<4) {
-                    answerList.add(europeList.get(i));
+                    answerList.add(quizList.get(i));
                 }
             }
         }
