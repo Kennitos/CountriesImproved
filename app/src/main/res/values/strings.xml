@@ -54,4 +54,7 @@
     <string name="km"> km²</string>
     <string name="achieved">Your achieved score: </string>
 
+    <string name="player_name">NAME</string>
+    <string name="selected_regions">REGIONS</string>
+
 </resources>

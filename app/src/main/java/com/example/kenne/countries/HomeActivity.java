@@ -62,9 +62,9 @@ public class HomeActivity extends AppCompatActivity implements CountriesRequest.
         startActivity(intent);
     }
 
-//    public void goToScoresActivity(View view){
-//        Intent intent = new Intent(this, ScoresActivity.class);
-//        intent.putExtra("countries",allCountries);
-//        startActivity(intent);
-//    }
+    public void goToScoresActivity(View view){
+        Intent intent = new Intent(this, ScoresActivity.class);
+        intent.putExtra("countries",allCountries);
+        startActivity(intent);
+    }
 }
