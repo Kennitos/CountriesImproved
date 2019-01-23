@@ -50,7 +50,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        testNr = 14;
+        testNr = 10;
 
         correct = new ArrayList<>();
         incorrect = new ArrayList<>();
@@ -154,7 +154,7 @@ public class QuizActivity extends AppCompatActivity {
 //                first_two= "0e";
 //            }
 
-            complete_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/"+first+"/"+first_two+"/"+end_url+"/1051px-"+end_url+".png";
+            complete_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/"+first+"/"+first_two+"/"+end_url+"/700px-"+end_url+".png";
             // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
 
              Log.d("check_current",""+first+" "+first_two+" "+hashString);

@@ -10,9 +10,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CurrentScoreActivity extends AppCompatActivity implements ScoreRequest.Callback, Response.Listener, Response.ErrorListener{
 
@@ -38,9 +44,44 @@ public class CurrentScoreActivity extends AppCompatActivity implements ScoreRequ
 
     public void postScore(ScoreItem scoreItem){
         String url = "http://ide50-kennitos.cs50.io:8080/list";
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        PostScoreRequest request = new PostScoreRequest(Request.Method.POST, url, this, this, scoreItem);
-        queue.add(request);
+         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+         PostScoreRequest request = new PostScoreRequest(Request.Method.POST, url, this, this, scoreItem);
+         queue.add(request);
+
+//        Map<String, String> params = new HashMap();
+//        params.put("first_param", "1");
+//        params.put("second_param", "2");
+//
+//        final JSONObject parameters = new JSONObject(params);
+//        try {
+//            parameters.put("work","ing?");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Log.d("Response","check_parameters"+parameters);
+//        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, parameters,
+//                new Response.Listener<JSONObject>()
+//                {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        // display response
+//                        Log.d("check_response", response.toString());
+//                        Log.d("check_response", ""+parameters);
+//                    }
+//                },
+//                new Response.ErrorListener()
+//                {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("Error.Response", "error:"+error);
+//                    }
+//                }
+//        );
+//
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        // add it to the RequestQueue
+//        queue.add(postRequest);
     }
 
     @Override

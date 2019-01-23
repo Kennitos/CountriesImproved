@@ -5,6 +5,10 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +27,7 @@ public class PostScoreRequest extends StringRequest {
     @Override
     protected Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
+        JSONObject jsonParams = new JSONObject();
 
         // Naming the variables
         String name = scoreItem.getPlayer_name();
@@ -31,20 +36,19 @@ public class PostScoreRequest extends StringRequest {
         ArrayList<Country> correct = scoreItem.getCorrect();
         ArrayList<Country> incorrect = scoreItem.getIncorrect();
 
+//        JSONArray jsonRegionsArray = new JSONArray();
+//        for(String r : regions) { jsonRegionsArray.put(r); }
+//        JSONArray jsonCorrectArray = new JSONArray();
+//        for(Country c : correct) { jsonCorrectArray.put(c.getName()); }
+//        JSONArray jsonIncorrectArray = new JSONArray();
+//        for(Country c : incorrect) { jsonIncorrectArray.put(c.getName()); }
 
         // Putting the variables in the parameters
         params.put("name", name);
         params.put("score", String.valueOf(sc));
-        for(int i = 0; i < regions.size(); i++){
-            params.put("regions", regions.get(i));
-        }
-        for(int i = 0; i < correct.size(); i++){
-            Log.d("check_request",""+correct.get(i).getName());
-            params.put("correct", correct.get(i).getName());
-        }
-        for(int i = 0; i < incorrect.size(); i++){
-            params.put("incorrect", incorrect.get(i).getName());
-        }
+        params.put("regions", regions+"");
+        params.put("correct", correct+"");
+        params.put("incorrect",incorrect+"");
 
         return params;
     }
