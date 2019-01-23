@@ -166,7 +166,7 @@ public class QuizActivity extends AppCompatActivity {
 //        StackOverflow link
 //        https://stackoverflow.com/questions/25749055/how-to-test-if-an-image-is-fully-loaded-with-picasso
         if(current.getSubregion().equals("South America")){
-            Picasso.get().load(complete_url).resize(250, 650).into(imageView);
+            Picasso.get().load(complete_url).into(imageView);
         } else {
             Picasso.get().load(complete_url).resize(650, 650).into(imageView);
         }
