@@ -57,7 +57,11 @@ The methods to get and post the scores are added (using a ScoreRequest and PostS
 ### Week 3
 
 #### Day 11 (monday)
-I cannot post a JSONArray on the rester server, unfortunatelly I can only post a String-String combination (key-value). I wanted to post in this format (using the String as key and ArrayList as value) :
+I cannot post a String-JSONArray combination on the rester server, unfortunatelly I can only post a String-String combination (key-value). With the previous assignments in AppStudio we learned to post String-String combinations with a HashMap, however if I try to post it with:
+> JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, {variable JSONObject},
+    new Response.Listener<JSONObject>() {....
+  
+I wanted to post in this format (using the String as key and ArrayList as value) :
 > [{"id": 1, "score": "870", "regions": ["Europe"], "correct": ["Ireland", "Liechtenstein", "Estonia", ...], "incorrect": "[]", "name": "Kennet"}]
 
 Since this is not possible, I have to post it the ArrayList as a literal String
