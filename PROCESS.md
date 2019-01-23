@@ -37,12 +37,35 @@ I decided to add some improvement to the process of answering the quiz questions
 When buttons are highlighted (green/red), the button itself will become disable for one second after which the new question is loaded. Because of this the user can't 'spam' the buttons preventing crashes and it gives the user opportunity to view the correct/incorrect answer. This also means that when the user doesn't answer in time, it will automatically load the new question.
 
 #### Day 8 (wednesday)
-Lorem ipsum dolor sit amet...
+Remove some error crahses, .....
 
 #### Day 9 (thursday)
-Lorem ipsum dolor sit amet...
+Improved the MD5 encryption, now there the MD5 encryption will display zeros. This will result in more succesfully loaded images of the countries. However there are still some images it will not load, because wikipedia uses another name for the country then the API (for example wikipedia uses United States and the API uses United States of Amercia). I also improved the SearchActivity and CompareActivity, a softkeyboard will automatically open when the activity is opened and will closes when the user navigates to another activity. In the CompareActivity a requestfocus is added, therefore you will not have to click on a the next editText, this will go automatically.
 
 #### Day 10 (friday)
-Lorem ipsum dolor sit amet...
+The quiz gives the correct images of countries for the continents: africa, europe, oceania, north america and south amercia. The all use a standard svg map provided by wikipedia. However for asia there is not good universal svg map provided by wikpedia (or have not found). With the other continents the format of the link would work for all the countries in that continent. However 
+this is not the case with Asia, there are many different formats not all countries work with the same
+univerisal (like with the other continents). These are some examples:
+- https://commons.wikimedia.org/wiki/File:Vietnam_in_Asia.svg
+- https://commons.wikimedia.org/wiki/File:Afghanistan_in_Asia_(-mini_map_-rivers).svg
+- https://commons.wikimedia.org/wiki/File:China_in_Asia_(de-facto).svg
+- https://commons.wikimedia.org/wiki/File:Japan_in_Asia_(de-facto)_(-mini_map_-rivers).svg
+- https://commons.wikimedia.org/wiki/File:India_in_Asia_(only_undisputed)_(-mini_map_-rivers).svg
+
+The methods to get and post the scores are added (using a ScoreRequest and PostScoreRequest)
 
 ### Week 3
+
+#### Day 11 (monday)
+I cannot post a JSONArray on the rester server, unfortunatelly I can only post a String-String combination (key-value). I wanted to post in this format (using the String as key and ArrayList as value) :
+> [{"id": 1, "score": "870", "regions": ["Europe"], "correct": ["Ireland", "Liechtenstein", "Estonia", ...], "incorrect": "[]", "name": "Kennet"}]
+
+Since this is not possible, I have to post it the ArrayList as a literal String
+
+>[{"id": 1, "score": "870", "regions": "[Europe"]", "correct": "[Ireland, Liechtenstein, Estonia, ...]", "incorrect": "[]", "name": "Kennet"}]
+
+#### Day 12 (tuesday)
+Lorem ipsum dolor sit amet...
+
+#### Day 13 (wednesday)
+I added a ScoreAdapter to display the scores in a ListView
