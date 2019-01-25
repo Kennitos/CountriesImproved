@@ -3,12 +3,7 @@ package com.example.kenne.countries;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
 import java.util.ArrayList;
 
 public class ScoresActivity extends AppCompatActivity implements ScoreRequest.Callback{
@@ -33,10 +28,6 @@ public class ScoresActivity extends AppCompatActivity implements ScoreRequest.Ca
         catch (Error e){
             Log.d("highscores_test","Empyt arraylist highscores");
         }
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, categories);
-//        ListView listView = findViewById(R.id.listScoreView);
-//        listView.setAdapter(adapter);
     }
 
     @Override

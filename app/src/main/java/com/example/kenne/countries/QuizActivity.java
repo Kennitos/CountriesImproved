@@ -2,6 +2,7 @@ package com.example.kenne.countries;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +10,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -36,15 +44,6 @@ public class QuizActivity extends AppCompatActivity {
     String end_url, complete_url;
     int questionIndex, score, testNr;
 
-
-    // removeLastChar will transform 'Moldova ' to 'Moldova' and 'Isle of Man ' to 'Isle of Man'
-    private static String removeLastChar(String str) {
-        Character lastChar = str.charAt(str.length()-1);
-        if(Character.isWhitespace(lastChar)){
-            return str.substring(0, str.length() - 1);
-        }
-        else { return str; }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +64,7 @@ public class QuizActivity extends AppCompatActivity {
         Quiz testQuiz = new Quiz(type,difficulty,regions,characteristics,COUNTRIES);
         ArrayList<Country> testcountries = testQuiz.selectCountries();
         selected_countries = testQuiz.select(testNr);
+        testQuiz.selectComplete(10);
 
         quizList = new ArrayList<>();
         for(int i = 0; i < selected_countries.size(); i++){
@@ -96,72 +96,11 @@ public class QuizActivity extends AppCompatActivity {
         final TextView timeView = findViewById(R.id.timeView);
         ImageView imageView = findViewById(R.id.countryView);
 
-        String[] split_name = current.getName().split("[(\\)]");
-        String lastCharSpace = removeLastChar(split_name[0]);
-        if(current.getRegion().equals("Europe")){
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Europe.svg";
-            if(current.getName().equals("United Kingdom of Great Britain and Northern Ireland")){
-                end_url = "United_Kingdom_in_Europe.svg";
-            }
-            if(current.getName().equals("Russian Federation")){
-                end_url = "Russia_in_Europe.svg";
-            }
-            if(current.getName().equals("Republic of Kosovo")){
-                end_url = "Kosovo_in_Europe_(de-facto).svg";
-            }
-        }
-        else if(current.getRegion().equals("Africa")){
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Africa.svg";
-        } else if(current.getSubregion().equals("South America")){
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_South_America.svg";
-        } else if(current.getSubregion().equals("Northern America") || current.getSubregion().equals("Central America")){
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_North_America.svg";
-        } else if(current.getSubregion().equals("Caribbean")){
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_North_America.svg";
-        } else if(current.getRegion().equals("Oceania")){
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_Oceania.svg";
-        } else{
-            end_url = lastCharSpace.replaceAll(" ", "_")+"_in_its_region.svg";
-        }
-        Log.d("check_current",""+end_url);
-        try {
-            // bron r.113-118 - https://stackoverflow.com/questions/3934331/how-to-hash-a-string-in-android
-            // tijmen has the same
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(end_url.getBytes(Charset.forName("US-ASCII")),0,end_url.length());
-            byte[] magnitude = digest.digest();
-            BigInteger bi = new BigInteger(1, magnitude);
-            String hashString = String.format("%0" + (magnitude.length << 1) + "x", bi);
+        EncryptionMD5 createString = new EncryptionMD5(current.getName(),current.getRegion(),current.getSubregion());
+        complete_url = createString.CreateEncryption();
+        // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
+         Log.d("check_current",""+complete_url);
 
-
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            md.update(end_url.getBytes(), 0, end_url.length());
-//            String hashString = new BigInteger(1, md.digest()).toString(16);
-
-//            BigInteger bigInt = new BigInteger(1, md.digest());
-//            accurate = String.format("%0"+(magnitude.byteArray ), bigInt);
-//            accurate2 = String.format("%032x",bigInt);
-//            formatter.format("%02x", b)
-
-            String first = Character.toString(hashString.charAt(0));
-            String first_two = first+Character.toString(hashString.charAt(1));
-
-
-            // Hardcode some important countries of which the generated md5 hash an accurate md5
-            // Bulgaria:
-//            if(current.getName().equals("Bulgaria")){
-//                first= "0";
-//                first_two= "0e";
-//            }
-
-            complete_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/"+first+"/"+first_two+"/"+end_url+"/700px-"+end_url+".png";
-            // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
-
-             Log.d("check_current",""+first+" "+first_two+" "+hashString);
-             Log.d("check_current",""+complete_url);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
 
 //        StackOverflow link
 //        https://stackoverflow.com/questions/25749055/how-to-test-if-an-image-is-fully-loaded-with-picasso
@@ -225,7 +164,11 @@ public class QuizActivity extends AppCompatActivity {
             }
             @Override
             public void onError(Exception e) {
-                countdown.start();
+                try{
+                    countdown.start();
+                } catch (NullPointerException e1){
+                    e1.printStackTrace();
+                }
                 Toast.makeText(getApplicationContext(),"can't load image",Toast.LENGTH_SHORT).show();
             }
         });
@@ -249,6 +192,25 @@ public class QuizActivity extends AppCompatActivity {
         Button button_b = findViewById(R.id.bButton);
         Button button_c = findViewById(R.id.cButton);
         Button button_d = findViewById(R.id.dButton);
+
+//        URL url = null;
+//        try {
+//            url = new URL("http://upload.wikimedia.org/wikipedia/commons/e/e8/Svg_example3.svg");
+//            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//            InputStream inputStream = urlConnection.getInputStream();
+//            SVG svg = SVGParser. getSVGFromInputStream(inputStream);
+//            Drawable drawable = svg.createPictureDrawable();
+//        } catch (Error e) {
+//            e.printStackTrace();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
+        ImageButton button_test = findViewById(R.id.imageButton);
+        Picasso.get().load("https://restcountries.eu/data/nld.svg").into(button_test);
 
         ArrayList<String> answerList = new ArrayList<>();
 //        Collections.shuffle(europe);
