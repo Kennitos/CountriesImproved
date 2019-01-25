@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@mipmap/background_countries"
+    android:alpha="0.8"
+
+    android:backgroundTintMode="src_over"
     tools:context=".SearchActivity">
 
     <TextView

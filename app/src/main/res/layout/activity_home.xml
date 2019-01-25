@@ -4,41 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:background="@mipmap/background_countries"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".HomeActivity">
 
     <TextView
         android:id="@+id/homeTextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome" />
+        android:text="@string/welcome"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/searchButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_button"
-        android:onClick="goToSearchActivity"/>
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/compareCountriesButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="goToCompareActivity"
-        android:text="@string/compare_button" />
+        <Button
+            android:id="@+id/quizButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_corners"
+            android:onClick="goToRegionCharActivity"
+            android:text="@string/quiz_button"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/quizButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="goToRegionCharActivity"
-        android:text="@string/quiz_button" />
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_corners"
+            android:onClick="goToSearchActivity"
+            android:text="@string/search_button"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/scoreButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="goToScoresActivity"
-        android:text="@string/score_button" />
+        <Button
+            android:id="@+id/compareCountriesButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_corners"
+            android:onClick="goToCompareActivity"
+            android:text="@string/compare_button"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/scoreButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_corners"
+            android:onClick="goToScoresActivity"
+            android:text="@string/score_button"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </LinearLayout>
