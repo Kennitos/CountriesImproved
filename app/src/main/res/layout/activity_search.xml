@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@mipmap/background_countries"
-    android:alpha="0.8"
-
+    android:background="@drawable/background_transparant"
     android:backgroundTintMode="src_over"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".SearchActivity">
 
     <TextView
@@ -27,6 +26,9 @@
         android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:onClick="goToCountryDetail"
         android:text="@string/button"
-        android:onClick="goToCountryDetail"/>
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 </LinearLayout>

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_transparant_light"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".CompareActivity">
 
     <LinearLayout
@@ -24,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
-            android:imeOptions="actionNext"
-            android:hint="@string/autocomplete" />
+            android:hint="@string/autocomplete"
+            android:imeOptions="actionNext" />
 
     </LinearLayout>
 
@@ -54,7 +56,10 @@
         android:id="@+id/goCompareButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
         android:onClick="goToCompareCountryDetailActivity"
-        android:text="@string/button" />
+        android:text="@string/compare_button"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
 
 </LinearLayout>

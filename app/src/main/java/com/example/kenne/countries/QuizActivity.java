@@ -164,12 +164,59 @@ public class QuizActivity extends AppCompatActivity {
             }
             @Override
             public void onError(Exception e) {
-                try{
-                    countdown.start();
-                } catch (NullPointerException e1){
-                    e1.printStackTrace();
-                }
-                Toast.makeText(getApplicationContext(),"can't load image",Toast.LENGTH_SHORT).show();
+//                try{
+//                    countdown.start();
+//                } catch (NullPointerException e1){
+//                    e1.printStackTrace();
+//                }
+                ImageView imageView = findViewById(R.id.countryView);
+                String img_url = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+current.getIso()+"/512.png";
+                Picasso.get().load(img_url).centerCrop().resize(512, 512).into(imageView);
+                Toast.makeText(getApplicationContext(),"substitution image",Toast.LENGTH_SHORT).show();
+                countdown = new CountDownTimer(11000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        timeView.setText(String.valueOf(millisUntilFinished / 1000));
+                        if(millisUntilFinished<1001){
+                            incorrect.add(current);
+                            String[] buttonNames = {"a","b","c","d"};
+                            List<String> buttonList = Arrays.asList( buttonNames );
+
+                            for (int i = 0; i < buttonList.size(); i++) {
+                                Button button = findViewById(getResources().getIdentifier(buttonList.get(i)+"Button", "id",
+                                        getApplicationContext().getPackageName()));
+                                String buttonText = button.getText().toString();
+                                if(buttonText.equals(current.getName())){
+                                    button.setBackgroundColor(Color.GREEN);
+                                }
+                            }
+                            Button button_a = findViewById(R.id.aButton);
+                            Button button_b = findViewById(R.id.bButton);
+                            Button button_c = findViewById(R.id.cButton);
+                            Button button_d = findViewById(R.id.dButton);
+
+                            button_a.setEnabled(false);
+                            button_b.setEnabled(false);
+                            button_c.setEnabled(false);
+                            button_d.setEnabled(false);
+                        }
+                    }
+                    public void onFinish() {
+                        timeView.setText("To Slow!");
+                        if(questionIndex==testNr-1) {
+                            Toast.makeText(getApplicationContext(), "All questions done!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), CurrentScoreActivity.class);
+                            intent.putExtra("score",score);
+                            intent.putExtra("regions",regions);
+                            intent.putExtra("correct",correct);
+                            intent.putExtra("incorrect", incorrect);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            questionIndex += 1;
+                            loadQuestions(questionIndex);
+                        }
+                    }
+                }.start();
             }
         });
         if (loaded.get()) {
@@ -249,7 +296,10 @@ public class QuizActivity extends AppCompatActivity {
         Button answerButton = (Button) view;
         try{
             countdown.cancel();
-        } catch (Error e){
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        catch (Error e){
             e.printStackTrace();
 //            countdown.start();
         }
