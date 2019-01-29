@@ -53,6 +53,7 @@ public class RegionCharActivity extends AppCompatActivity {
         CheckBox name = findViewById(R.id.checkName);
         CheckBox capital = findViewById(R.id.checkCapital);
         CheckBox population = findViewById(R.id.checkPopulation);
+        CheckBox area = findViewById(R.id.checkArea);
         CheckBox language = findViewById(R.id.checkLanguage);
         CheckBox weather = findViewById(R.id.checkWeather);
         CheckBox flag = findViewById(R.id.checkFlag);
@@ -66,6 +67,9 @@ public class RegionCharActivity extends AppCompatActivity {
         }
         if(population.isChecked()){
             characteristics.add("population");
+        }
+        if(area.isChecked()){
+            characteristics.add("area");
         }
         if(language.isChecked()){
             characteristics.add("language");

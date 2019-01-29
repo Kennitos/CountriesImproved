@@ -26,7 +26,8 @@
         <activity android:name=".CurrentScoreActivity" />
         <activity android:name=".CompareActivity" />
         <activity android:name=".CompareCountryDetailActivity" />
-        <activity android:name=".ScoresActivity"></activity>
+        <activity android:name=".ScoresActivity" />
+        <activity android:name=".FlagActivity"></activity>
     </application>
 
 </manifest>

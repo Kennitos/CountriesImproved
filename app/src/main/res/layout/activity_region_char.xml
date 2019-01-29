@@ -91,6 +91,12 @@
             android:text="@string/population" />
 
         <CheckBox
+            android:id="@+id/checkArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/area" />
+
+        <CheckBox
             android:id="@+id/checkLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

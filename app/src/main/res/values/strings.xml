@@ -56,5 +56,7 @@
 
     <string name="player_name">NAME</string>
     <string name="selected_regions">REGIONS</string>
+    <string name="slow">To slow!</string>
+    <string name="flag_description">This is an image of a flag</string>
 
 </resources>

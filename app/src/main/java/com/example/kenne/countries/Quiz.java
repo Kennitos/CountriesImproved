@@ -1,19 +1,21 @@
 package com.example.kenne.countries;
 
+import android.support.v4.math.MathUtils;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
-public class Quiz {
+public class Quiz implements Serializable {
     private String question_type, difficulty;
-    private int score;
+    private int score, num1, num2, num3;
     private ArrayList<String> regions, characteristics;
     private ArrayList<Country> countries;
     private ArrayList<Country> quiz_countries;
@@ -42,13 +44,10 @@ public class Quiz {
     public ArrayList<Country> selectCountries(){
         for(int i = 0; i < countries.size(); i++){
             Country item = countries.get(i);
-//            Log.d("select_countries","region/subregion "+item.getRegion()+item.getSubregion()+regions);
             if(regions.contains(item.getRegion())){
-                Log.d("select_countries","country: "+item.getName()+" "+item.getRegion());
                 quiz_countries.add(item);
             }
             if(regions.contains(item.getSubregion())){
-                Log.d("select_countries","country: "+item.getName()+" "+item.getRegion());
                 quiz_countries.add(item);
             }
             if(regions.contains("North America")&(item.getSubregion().equals("Northern America")|| item.getSubregion().equals("Central America")
@@ -89,13 +88,12 @@ public class Quiz {
         for(int i = 0; i < x; i++){
             Country random = random_countries.get(i);
             if(characteristics.contains("name")){
-                int id = y;
                 String question = "What is the name of this country?";
                 String correct = random.getName();
 
                 Collections.shuffle(random_order);
                 ArrayList<String> answerList = new ArrayList<>();
-                answerList.add(random.getName());
+                answerList.add(correct);
                 for (int c = 0; c < 6; c++) {
                     if (!answerList.contains(random_order.get(c).getName())) {
                         if(answerList.size()<4) {
@@ -108,9 +106,14 @@ public class Quiz {
                 JSONObject entry = new JSONObject();
                 try {
                     entry.put("id",y);
+                    entry.put("name",random.getName());
+                    entry.put("region",random.getRegion());
+                    entry.put("subregion",random.getSubregion());
+                    entry.put("iso",random.getIso());
+                    entry.put("type","string");
                     entry.put("question",question);
                     entry.put("correct",correct);
-                    entry.put("answers", answerList);
+                    entry.put("answers", new JSONArray(answerList));
                     allQuestionsArray.put(entry);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -119,13 +122,12 @@ public class Quiz {
                 y += 1;
             }
             if(characteristics.contains("capital")){
-                int id = y;
                 String question = "What is the capital of "+random.getName()+"?";
                 String correct = random.getCapital();
 
                 Collections.shuffle(random_order);
                 ArrayList<String> answerList = new ArrayList<>();
-                answerList.add(random.getCapital());
+                answerList.add(correct);
                 for (int c = 0; c < 6; c++) {
                     if (!answerList.contains(random_order.get(c).getCapital())) {
                         if(answerList.size()<4) {
@@ -138,9 +140,64 @@ public class Quiz {
                 JSONObject entry = new JSONObject();
                 try {
                     entry.put("id",y);
+                    entry.put("name",random.getName());
+                    entry.put("region",random.getRegion());
+                    entry.put("subregion",random.getSubregion());
+                    entry.put("iso",random.getIso());
+                    entry.put("type","string");
                     entry.put("question",question);
                     entry.put("correct",correct);
-                    entry.put("answers", answerList);
+                    entry.put("answers",new JSONArray(answerList));
+                    allQuestionsArray.put(entry);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                y += 1;
+            }
+            if(characteristics.contains("population")){
+                String question = "What is the population of "+random.getName()+"?";
+
+                DummyIntegers dummyIntegers = new DummyIntegers(random.getPopulation(),"pop");
+                dummyIntegers.create();
+                String correct_int = dummyIntegers.getCorrect_int();
+                ArrayList<String> answerList = dummyIntegers.getAnswerList();
+
+                JSONObject entry = new JSONObject();
+                try {
+                    entry.put("id",y);
+                    entry.put("name",random.getName());
+                    entry.put("region",random.getRegion());
+                    entry.put("subregion",random.getSubregion());
+                    entry.put("iso",random.getIso());
+                    entry.put("type","string");
+                    entry.put("question",question);
+                    entry.put("correct",correct_int);
+                    entry.put("answers",new JSONArray(answerList));
+                    allQuestionsArray.put(entry);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                y += 1;
+            }
+            if(characteristics.contains("area")){
+                String question = "What is the area of "+random.getName()+"?";
+
+                DummyIntegers dummyIntegers = new DummyIntegers(random.getArea(),"area");
+                dummyIntegers.create();
+                String correct_int = dummyIntegers.getCorrect_int();
+                ArrayList<String> answerList = dummyIntegers.getAnswerList();
+
+                JSONObject entry = new JSONObject();
+                try {
+                    entry.put("id",y);
+                    entry.put("name",random.getName());
+                    entry.put("region",random.getRegion());
+                    entry.put("subregion",random.getSubregion());
+                    entry.put("iso",random.getIso());
+                    entry.put("type","string");
+                    entry.put("question",question);
+                    entry.put("correct",correct_int);
+                    entry.put("answers",new JSONArray(answerList));
                     allQuestionsArray.put(entry);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -148,17 +205,17 @@ public class Quiz {
                 y += 1;
             }
             if(characteristics.contains("flag")){
-                int id = y;
-                String question = "What is the country's name of this flag?";
-                String correct = random.getName();
+                String question = "What is the the flag of "+random.getName()+"?";
+                String correct_url = "https://www.countryflags.io/"+random.getIso()+"/flat/64.png";
 
                 Collections.shuffle(random_order);
                 ArrayList<String> answerList = new ArrayList<>();
-                answerList.add(random.getName());
+                answerList.add(correct_url);
                 for (int c = 0; c < 6; c++) {
-                    if (!answerList.contains(random_order.get(c).getName())) {
+                    String answer_url = "https://www.countryflags.io/"+random_order.get(c).getIso()+"/flat/64.png";
+                    if (!answerList.contains(answer_url)) {
                         if(answerList.size()<4) {
-                            answerList.add(random_order.get(c).getName());
+                            answerList.add(answer_url);
                         }
                     }
                 }
@@ -167,9 +224,14 @@ public class Quiz {
                 JSONObject entry = new JSONObject();
                 try {
                     entry.put("id",y);
+                    entry.put("name",random.getName());
+                    entry.put("region",random.getRegion());
+                    entry.put("subregion",random.getSubregion());
+                    entry.put("iso",random.getIso());
+                    entry.put("type","img");
                     entry.put("question",question);
-                    entry.put("correct",correct);
-                    entry.put("answers", answerList);
+                    entry.put("correct",correct_url);
+                    entry.put("answers", new JSONArray(answerList));
                     allQuestionsArray.put(entry);
                 } catch (JSONException e) {
                     e.printStackTrace();
