@@ -51,7 +51,7 @@ public class DifficultyActivity extends AppCompatActivity {
         }
 
         if((open.isChecked() || multi.isChecked()) & (easy.isChecked() || medium.isChecked() || hard.isChecked())){
-            Toast.makeText(this,"Arrays: "+difficulty,Toast.LENGTH_LONG).show();
+//            Toast.makeText(this,"Arrays: "+difficulty,Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, QuizActivity.class);
             intent.putExtra("regions",regions);
             intent.putExtra("characteristics",characteristics);

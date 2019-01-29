@@ -43,31 +43,96 @@ public class QuizActivity extends AppCompatActivity {
         incorrect_str = new ArrayList<>();
 
         Intent intent = getIntent();
-        regions = intent.getStringArrayListExtra("regions");
-        ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
-        String type = intent.getStringArrayListExtra("difficulty").get(0);
-        String difficulty = intent.getStringArrayListExtra("difficulty").get(1);
-        COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
-
 
         // check if intent 'xxx' exist
         // if it exist, do plan a (continue with existing quiz)
         // if it does not exist, do plan b (create a new quiz)
         Bundle extras = intent.getExtras();
         if (extras != null) {
+            Log.d("check_flag","check0");
             if (extras.containsKey("continue_quiz")) {
-                int k = 10;
-                Log.d("print_k",""+k);
+                String jsonArray = intent.getStringExtra("continue_quiz");
+                score = intent.getIntExtra("score",0);
+                questionIndex = intent.getIntExtra("index",0);
+                complete_url = intent.getStringExtra("map1");
+                img_url = intent.getStringExtra("map2");
+                try {
+                    allQuestions = new JSONArray(jsonArray);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                loadQuestions(questionIndex);
             }
-            else{
+            else {
+                regions = intent.getStringArrayListExtra("regions");
+                ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
+                String type = intent.getStringArrayListExtra("difficulty").get(0);
+                String difficulty = intent.getStringArrayListExtra("difficulty").get(1);
+                COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
+
                 Quiz testQuiz = new Quiz(type,difficulty,regions,characteristics,COUNTRIES);
                 testQuiz.selectCountries();
                 allQuestions = testQuiz.selectComplete(10);
 
                 score = 0;
                 questionIndex = 0;
+                Log.d("check_flag","check1");
+                try {
+                    JSONObject current_object = (JSONObject) allQuestions.get(questionIndex);
+                    String question_type = current_object.getString("type");
+                    Log.d("check_flag","check2"+type);
+                    if(question_type.equals("img")){
+                        object_name = current_object.getString("name");
+                        object_region = current_object.getString("region");
+                        object_subregion = current_object.getString("subregion");
+                        object_iso = current_object.getString("iso");
+                        Log.d("check_flag","check3"+object_name+object_region+object_subregion+object_iso);
+
+                        EncryptionMD5 createString = new EncryptionMD5(object_name, object_region, object_subregion);
+                        complete_url = createString.CreateEncryption();
+                        img_url = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+object_iso+"/512.png";
+
+                        Intent new_intent = new Intent(getApplicationContext(),FlagActivity.class);
+                        new_intent.putExtra("continue_quiz",allQuestions.toString());
+                        new_intent.putExtra("score",score);
+                        new_intent.putExtra("index",questionIndex);
+                        new_intent.putExtra("map1",complete_url);
+                        new_intent.putExtra("map2",img_url);
+                        startActivity(new_intent);
+                        finish();
+                        Log.d("check_flag","check4");
+                    } else {
+                        loadQuestions(questionIndex);
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void checkNext(){
+        // Check what the next type of question is
+        try {
+            JSONObject next_object = (JSONObject) allQuestions.get(questionIndex+1);
+            String type = next_object.getString("type");
+            Log.d("next_question","type: "+type);
+            // If the next type of question is img (flag), go to the FlagActivity
+            if(type.equals("img")){
+                Intent intent = new Intent(getApplicationContext(),FlagActivity.class);
+                intent.putExtra("continue_quiz",allQuestions.toString());
+                intent.putExtra("score",score);
+                intent.putExtra("index",questionIndex+1);
+                intent.putExtra("map1",complete_url);
+                intent.putExtra("map2",img_url);
+                startActivity(intent);
+                finish();
+            } else{
+                questionIndex += 1;
                 loadQuestions(questionIndex);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -148,19 +213,8 @@ public class QuizActivity extends AppCompatActivity {
                     }
                     public void onFinish() {
                         timeView.setText(R.string.slow);
-                        if(questionIndex==allQuestions.length()-1) {
-                            Toast.makeText(getApplicationContext(), "All questions done!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), CurrentScoreActivity.class);
-                            intent.putExtra("score",score);
-                            intent.putExtra("regions",regions);
-                            intent.putExtra("correct",correct_str);
-                            intent.putExtra("incorrect", incorrect_str);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            questionIndex += 1;
-                            loadQuestions(questionIndex);
-                        }
+                        // Check what the next type of question is
+                        checkNext();
                     }
                 }.start();
             }
@@ -199,19 +253,8 @@ public class QuizActivity extends AppCompatActivity {
                     }
                     public void onFinish() {
                         timeView.setText(R.string.slow);
-                        if(questionIndex==allQuestions.length()-1) {
-                            Toast.makeText(getApplicationContext(), "All questions done!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), CurrentScoreActivity.class);
-                            intent.putExtra("score",score);
-                            intent.putExtra("regions",regions);
-                            intent.putExtra("correct",correct_str);
-                            intent.putExtra("incorrect", incorrect_str);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            questionIndex += 1;
-                            loadQuestions(questionIndex);
-                        }
+                        // Check what the next type of question is
+                        checkNext();
                     }
                 }.start();
             }
@@ -306,30 +349,6 @@ public class QuizActivity extends AppCompatActivity {
             finish();
         }
         else {
-            // Check what the next type of question is
-            try {
-                JSONObject next_object = (JSONObject) allQuestions.get(questionIndex+1);
-                String type = next_object.getString("type");
-                Log.d("next_question","type: "+type);
-                Log.d("next_question","type: "+type);
-                // If the next type of question is img (flag), go to the FlagActivity
-                if(type.equals("img")){
-                    Intent intent = new Intent(this,FlagActivity.class);
-                    intent.putExtra("continue_quiz",allQuestions.toString());
-                    intent.putExtra("score",score);
-                    intent.putExtra("index",questionIndex+1);
-                    intent.putExtra("map1",complete_url);
-                    intent.putExtra("map2",img_url);
-                    startActivity(intent);
-
-//                allQuestions = testQuiz.selectComplete(10);
-//                score = 0;
-//                questionIndex = 0;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            questionIndex += 1;
             CountDownTimer short_countdown = new CountDownTimer(1000, 1000) {
                 Button button_a = findViewById(R.id.aButton);
                 Button button_b = findViewById(R.id.bButton);
@@ -342,7 +361,8 @@ public class QuizActivity extends AppCompatActivity {
                     button_d.setEnabled(false);
                 }
                 public void onFinish() {
-                    loadQuestions(questionIndex);
+                    // Check what the next type of question is
+                    checkNext();
                 }
             }.start();
       }

@@ -130,8 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:onClick="questionAfterFlag"
             android:contentDescription="@string/flag_description"
+            android:onClick="questionAfterFlag"
             app:srcCompat="@drawable/ic_launcher_background" />
 
     </LinearLayout>

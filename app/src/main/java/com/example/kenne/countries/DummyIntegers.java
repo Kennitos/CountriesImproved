@@ -25,7 +25,16 @@ public class DummyIntegers {
         int i4 = (int) i3;
 
         Random rand = new Random();
-        int rand_int = rand.nextInt(4);
+        int rand_int;
+        if(i2<5){
+            rand_int = 0;
+        } else if(i2<9){
+            rand_int = rand.nextInt(2);
+        } else if(i2<13){
+            rand_int = rand.nextInt(3);
+        } else {
+            rand_int = rand.nextInt(4);
+        }
         ArrayList<Integer> num = new ArrayList<>();
         if(rand_int==0){
             num1 = i4 + 4*(int)Math.pow(10, length-2);
