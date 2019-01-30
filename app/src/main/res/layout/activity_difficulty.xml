@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_transparant_light"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".DifficultyActivity">
+    tools:context=".Activity.DifficultyActivity">
 
     <TextView
         android:id="@+id/question_typeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_question" />
+        android:text="@string/choose_question"
+        android:textSize="17sp" />
 
     <RadioGroup
         android:id="@+id/radioQuestionGroup"
@@ -24,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:buttonTint="@color/colorPrimaryDark"
             android:checked="true"
             android:text="@string/multi" />
 
@@ -32,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/open" />
     </RadioGroup>
 
@@ -39,7 +43,9 @@
         android:id="@+id/diffilcultyView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_difficulty" />
+        android:paddingTop="20dp"
+        android:text="@string/choose_difficulty"
+        android:textSize="17sp" />
 
     <RadioGroup
         android:id="@+id/radioDiffilcultyGroup"
@@ -51,6 +57,7 @@
             android:id="@+id/radioEasy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:checked="true"
             android:text="@string/easy" />
 
@@ -58,12 +65,14 @@
             android:id="@+id/radioMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/medium" />
 
         <RadioButton
             android:id="@+id/radioHard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/hard" />
     </RadioGroup>
 
@@ -75,5 +84,5 @@
         android:onClick="goToQuiz"
         android:text="@string/start_quiz"
         android:textColor="@android:color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 </LinearLayout>

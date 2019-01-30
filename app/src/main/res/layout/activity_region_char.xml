@@ -6,13 +6,14 @@
     android:background="@drawable/background_transparant_light"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".RegionCharActivity">
+    tools:context=".Activity.RegionCharActivity">
 
     <TextView
         android:id="@+id/RegionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_reg" />
+        android:text="@string/choose_reg"
+        android:textSize="17sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,18 +25,21 @@
             android:id="@+id/checkAfrica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/africa" />
 
         <CheckBox
             android:id="@+id/checkAsia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/asia" />
 
         <CheckBox
             android:id="@+id/checkEurope"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:checked="false"
             android:text="@string/europe" />
 
@@ -43,18 +47,21 @@
             android:id="@+id/checkOceania"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/oceania" />
 
         <CheckBox
             android:id="@+id/checkNorthAmerica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/north_america" />
 
         <CheckBox
             android:id="@+id/checkSouthAmerica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/south_america" />
 
     </LinearLayout>
@@ -63,7 +70,8 @@
         android:id="@+id/charTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_char" />
+        android:text="@string/choose_char"
+        android:textSize="17sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,6 +83,7 @@
             android:id="@+id/checkName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:checked="true"
             android:text="@string/check_name" />
 
@@ -82,36 +91,42 @@
             android:id="@+id/checkCapital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/capital" />
 
         <CheckBox
             android:id="@+id/checkPopulation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/population" />
 
         <CheckBox
             android:id="@+id/checkArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/area" />
 
         <CheckBox
             android:id="@+id/checkLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/language" />
 
         <CheckBox
             android:id="@+id/checkWeather"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/weather" />
 
         <CheckBox
             android:id="@+id/checkFlag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
             android:text="@string/flag" />
     </LinearLayout>
 
