@@ -69,7 +69,24 @@ Since this is not possible, I have to post it the ArrayList as a literal String
 >[{"id": 1, "score": "870", "regions": "[Europe"]", "correct": "[Ireland, Liechtenstein, Estonia, ...]", "incorrect": "[]", "name": "Kennet"}]
 
 #### Day 12 (tuesday)
-Lorem ipsum dolor sit amet...
+Fixing chashes
 
 #### Day 13 (wednesday)
 I added a ScoreAdapter to display the scores in a ListView
+
+#### Day 14 (thursday)
+ScoreRequest is working now
+
+#### Day 15 (friday)
+Improve the style of the app + add separate functions
+
+### Week 4
+
+#### Day 16 (monday)
+add flags working properly + 
+
+#### Day 17 (tuesday)
+finalizing code + crash fixes
+
+#### Day 18 (wednesday)
+Cleaning code + adding comments
