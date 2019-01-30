@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_transparant_light"
+    android:background="@drawable/background_transparant"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".CompareActivity">
+    tools:context=".Activity.CompareActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,14 @@
             android:id="@+id/searchView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search_c" />
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:text="@string/search_c"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteCountry1"
@@ -27,7 +34,13 @@
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:hint="@string/autocomplete"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
 
     </LinearLayout>
 
@@ -41,14 +54,27 @@
             android:id="@+id/searchView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search_c" />
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:text="@string/search_c"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteCountry2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
-            android:hint="@string/autocomplete" />
+            android:hint="@string/autocomplete"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
 
     </LinearLayout>
 

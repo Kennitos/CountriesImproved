@@ -1,4 +1,4 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Activity;
 
 
 import android.content.Context;
@@ -13,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.kenne.countries.DetailActivity.CountryDetailActivity;
+import com.example.kenne.countries.Object.Country;
+import com.example.kenne.countries.R;
+
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {

@@ -6,21 +6,36 @@
     android:background="@drawable/background_transparant"
     android:backgroundTintMode="src_over"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".SearchActivity">
+    android:paddingLeft="20dp"
+    android:paddingTop="100dp"
+    android:paddingRight="20dp"
+    tools:context=".Activity.SearchActivity">
 
     <TextView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_c" />
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="@string/search_c"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteCountry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:completionThreshold="1"
-        android:hint="@string/autocomplete" />
+        android:hint="@string/autocomplete"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
     <Button
         android:id="@+id/searchButton"
@@ -28,7 +43,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners"
         android:onClick="goToCountryDetail"
-        android:text="@string/button"
+        android:text="@string/search_b"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 </LinearLayout>

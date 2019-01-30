@@ -14,6 +14,8 @@
     <string name="area">Area</string>
     <string name="language">Language</string>
     <string name="flag">Flag</string>
+    <string name="region_i">Region</string>
+    <string name="subregion">Subregion</string>
 
     <string name="africa">Africa</string>
     <string name="asia">Asia</string>
@@ -49,6 +51,7 @@
     <string name="button">Button</string>
 
     <string name="search_c">Search a country</string>
+    <string name="search_b">Search</string>
 
     <string name="autocomplete">Type a country...</string>
     <string name="km"> km²</string>
@@ -58,5 +61,10 @@
     <string name="selected_regions">REGIONS</string>
     <string name="slow">To slow!</string>
     <string name="flag_description">This is an image of a flag</string>
+    <string name="percentage">%</string>
+
+    <string name="view_regions">Selected region(s):</string>
+    <string name="view_correct">Correct:</string>
+    <string name="view_incorrect">Incorrect:</string>
 
 </resources>

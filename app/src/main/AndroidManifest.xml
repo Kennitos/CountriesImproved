@@ -11,22 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".Activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegionCharActivity" />
+        <activity android:name=".Activity.RegionCharActivity" />
         <activity android:name=".QuizActivity" />
-        <activity android:name=".DifficultyActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".CountryDetailActivity" />
-        <activity android:name=".CurrentScoreActivity" />
-        <activity android:name=".CompareActivity" />
-        <activity android:name=".CompareCountryDetailActivity" />
-        <activity android:name=".ScoresActivity" />
+        <activity android:name=".Activity.DifficultyActivity" />
+        <activity android:name=".Activity.SearchActivity" />
+        <activity android:name=".DetailActivity.CountryDetailActivity" />
+        <activity android:name=".Activity.CurrentScoreActivity" />
+        <activity android:name=".Activity.CompareActivity" />
+        <activity android:name=".DetailActivity.CompareCountryDetailActivity" />
+        <activity android:name=".Activity.ScoresActivity" />
         <activity android:name=".FlagActivity"></activity>
     </application>
 

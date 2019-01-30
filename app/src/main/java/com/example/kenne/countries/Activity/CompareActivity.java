@@ -1,4 +1,12 @@
-package com.example.kenne.countries;
+/*
+CompareActivity.java
+
+This activity ....
+
+@ author        Kennet Botan
+*/
+package com.example.kenne.countries.Activity;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +19,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
-
+import com.example.kenne.countries.DetailActivity.CompareCountryDetailActivity;
+import com.example.kenne.countries.Object.Country;
+import com.example.kenne.countries.R;
 import java.util.ArrayList;
 
 public class CompareActivity extends AppCompatActivity {
