@@ -18,8 +18,22 @@ When trying to learn new countries and their characteristics there are many geog
 
 In this app you can search all kinds of characteristics about countries, compare them and test your knowledge about them.
 
-![](doc/search.png)
-![](doc/quiz.png)
+<p float="left">
+	<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_8.png" width="275" height="490">
+	<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_1.png" width="275" height="490">
+	<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_2.png" width="275" height="490">
+</p>
+
+<p float="center">
+	<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_3.png" width="275" height="490">
+	<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_4.png" width="275" height="490">
+</p>
+
+<p float="left">
+<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_5.png" width="275" height="490">
+<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_6.png" width="275" height="490">
+<img src="https://github.com/Kennitos/Countries/blob/master/doc/Screenshot_7.png" width="275" height="490">
+</p>
 
 ### Features
 
