@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kenne.countries.Activity.CompareActivity;
 import com.example.kenne.countries.Object.Country;
@@ -104,7 +105,7 @@ public class CountryDetailActivity extends AppCompatActivity implements WeatherR
 
     @Override
     public void gotWeatherError(String message) {
-        Log.d("check_response","cd"+message);
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
     public void compareSingleCountry(View view){

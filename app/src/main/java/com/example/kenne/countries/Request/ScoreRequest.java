@@ -11,15 +11,12 @@ this request is called from within another activity.
 package com.example.kenne.countries.Request;
 
 import android.content.Context;
-import android.util.Log;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.kenne.countries.Object.ScoreItem;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

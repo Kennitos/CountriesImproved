@@ -12,7 +12,6 @@ and the actual current temperature. For example [Snow, 2.0 °C].
 package com.example.kenne.countries.Request;
 
 import android.content.Context;
-import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

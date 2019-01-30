@@ -81,7 +81,6 @@ public class EncryptionMD5 implements Serializable{
         } else {
             end_url = lastCharSpace.replaceAll(" ", "_") + "_in_its_region.svg";
         }
-        Log.d("check_current", "" + end_url);
         try {
             // Encrypt the end_url
             // bron r.65-69 - https://stackoverflow.com/questions/3934331/how-to-hash-a-string-in-android

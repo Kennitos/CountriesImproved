@@ -8,6 +8,9 @@ QuizActivity to the FlagActivity. For exapmle if a quiz has questions about the 
 and flag, it will cycle back and forth between QuizActivity and FlagActivity. During that cycling back
 and forth the values will be passed on with intents each time.
 
+Note: the comments on QuizActivity and FlagActivity are almost identical, since they both have the same
+layout, with the difference that QuizActivity uses Buttons and FlagActivity uses ImageButtons
+
 @ author        Kennet Botan
 */
 
@@ -141,7 +144,7 @@ public class FlagActivity extends AppCompatActivity {
         score_view.setText(String.valueOf(score));
         remaining_view.setText(String.valueOf(index + 1 + "/" + allQuestions.length()));
 
-        // Assign ImageButtons
+        // Assign ImageButtons, make them final so they can be accessed from within inner classes
         final ImageButton button_a = findViewById(R.id.imageButtonA);
         final ImageButton button_b = findViewById(R.id.imageButtonB);
         final ImageButton button_c = findViewById(R.id.imageButtonC);
@@ -239,7 +242,6 @@ public class FlagActivity extends AppCompatActivity {
         };
 
         ImageView imageView = findViewById(R.id.countryFlagView);
-        Log.d("check_object", "object: " + object_name + object_region + object_subregion);
         EncryptionMD5 createString = new EncryptionMD5(object_name, object_region, object_subregion);
         complete_url = createString.CreateEncryption();
         Picasso.get().load(complete_url).resize(650, 650).into(imageView, new Callback.EmptyCallback() {
@@ -301,7 +303,6 @@ public class FlagActivity extends AppCompatActivity {
                 }
             }, 750);
             answerButton.setBackgroundColor(Color.GREEN);
-            Log.d("check_tag", "correct!");
         } else {
             // If this is not the correct answer, add the answer to the list of incorrect answers
             // and make the button RED for the period of 1.0 second

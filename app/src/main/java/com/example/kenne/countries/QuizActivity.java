@@ -1,4 +1,18 @@
+/*
+QuizActivity.java
 
+This activity handle all the questions of the quiz concerning the non flag questions. When a quiz is started
+in QuizActivity, during the quiz the app will look ahead one question and checks if it is a question
+concerning flags. If that is the case, the user will an intent is started and the user will be redirected from the
+QuizActivity to the FlagActivity. Otherwise the user stays in the QuizActivity.For exapmle if a quiz
+has questions about the country name, capital and flag, it will cycle back and forth between QuizActivity
+and FlagActivity. During that cycling back and forth the values will be passed on with intents each time.
+
+Note: the comments on QuizActivity and FlagActivity are almost identical, since they both have the same
+layout, with the difference that QuizActivity uses Buttons and FlagActivity uses ImageButtons
+
+@ author        Kennet Botan
+*/
 
 package com.example.kenne.countries;
 
@@ -31,6 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QuizActivity extends AppCompatActivity {
 
+    // Create the variables that will be used through the whole activity;
     ArrayList<Country> COUNTRIES;
     ArrayList<String> regions, correct_str, incorrect_str;
     CountDownTimer countdown;
@@ -48,6 +63,7 @@ public class QuizActivity extends AppCompatActivity {
         correct_str = new ArrayList<>();
         incorrect_str = new ArrayList<>();
 
+        // Get intent and its values (extra's)
         Intent intent = getIntent();
 
         // check if intent 'xxx' exist
@@ -107,10 +123,8 @@ public class QuizActivity extends AppCompatActivity {
                         new_intent.putExtra("incorrect", incorrect_str);
                         new_intent.putExtra("map1",complete_url);
                         new_intent.putExtra("map2",img_url);
-                        Log.d("check_correct_array1","11"+correct_str+incorrect_str);
                         startActivity(new_intent);
                         finish();
-                        Log.d("check_flag","check4");
                     } else {
                         loadQuestions(questionIndex);
                     }
@@ -121,12 +135,18 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+
+    // This function (checkNext) checks whether all questions are asked and whether what kind of question the next
+    // one is (questionIndex+1). If the next question is a question not about flags, the users stays
+    // on this (QuizActivity) activity. It will load another question with LoadQuestions.
+    // If the next question is a question about flags, the users get redirected to the FlagActivity,
+    // all the values will be sent with an intent.
+
     public void checkNext(){
         // Check what the next type of question is
         try {
             JSONObject next_object = (JSONObject) allQuestions.get(questionIndex+1);
             String type = next_object.getString("type");
-            Log.d("next_question","type: "+type);
             // If the next type of question is img (flag), go to the FlagActivity
             if(type.equals("img")){
                 Intent intent = new Intent(getApplicationContext(),FlagActivity.class);
@@ -156,15 +176,17 @@ public class QuizActivity extends AppCompatActivity {
         this.finish();
     }
 
+    // This function will load the activity with the all the values of the question
+    // For example the TextView for the String of the question will set, etc.
     public void loadQuestions(int index){
-        Log.d("check_continue","hij gaat door");
-
+        // Assign the TextViews
         TextView regionView = findViewById(R.id.regionView);
         TextView questionView = findViewById(R.id.questionView);
         TextView remainingView = findViewById(R.id.remainingView);
         TextView scoreView = findViewById(R.id.scoreView);
         final TextView timeView = findViewById(R.id.timeView);
 
+        // Assign Buttons, make them final so they can be accessed from within inner classes
         final Button button_a = findViewById(R.id.aButton);
         final Button button_b = findViewById(R.id.bButton);
         final Button button_c = findViewById(R.id.cButton);
@@ -187,11 +209,13 @@ public class QuizActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Set TextViews
         regionView.setText(object_region);
         remainingView.setText(String.valueOf(questionIndex+1+"/"+allQuestions.length()));
         scoreView.setText(String.valueOf(score));
         questionView.setText(object_question);
 
+        // Set Text of the buttons (it's already randomized)
         try {
             button_a.setText((String) current_object.getJSONArray("answers").get(0));
             button_b.setText((String) current_object.getJSONArray("answers").get(1));
@@ -201,18 +225,16 @@ public class QuizActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         EncryptionMD5 createString = new EncryptionMD5(object_name, object_region, object_subregion);
         complete_url = createString.CreateEncryption();
         // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
 
-
+        // Create a countdown that will countdown from 10 to 0, where during the last second of the
+        // countdown the buttons will become disable, so that you cant press them anymore
         countdown = new CountDownTimer(11000, 1000) {
             public void onTick(long millisUntilFinished) {
                 timeView.setText(String.valueOf(millisUntilFinished / 1000));
                 if(millisUntilFinished<1001){
-//                            incorrect.add(current);
-
                     incorrect_str.add(object_correct);
                     String[] buttonNames = {"a","b","c","d"};
                     List<String> buttonList = Arrays.asList( buttonNames );
@@ -221,7 +243,6 @@ public class QuizActivity extends AppCompatActivity {
                         Button button = findViewById(getResources().getIdentifier(buttonList.get(i)+"Button", "id",
                                 getApplicationContext().getPackageName()));
                         String buttonText = button.getText().toString();
-//                                if(buttonText.equals(current.getName())){
                         if(buttonText.equals(object_correct)){
                             button.setBackgroundColor(Color.GREEN);
                         }
@@ -230,8 +251,8 @@ public class QuizActivity extends AppCompatActivity {
                 }
             }
             public void onFinish() {
+                // Display to the user that he was to slow with his answer and check what the next type of question is
                 timeView.setText(R.string.slow);
-                // Check what the next type of question is
                 checkNext();
             }
         };
@@ -247,6 +268,9 @@ public class QuizActivity extends AppCompatActivity {
                 button_d.setEnabled(true);
                 countdown.start();
             }
+
+            // If the image of the map of the country of the code above doesn't load, then load
+            // this backup image of map of the country
             @Override
             public void onError(Exception e) {
                 ImageView imageView = findViewById(R.id.countryView);
@@ -262,6 +286,7 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
+    // This function will run after a Button
     public void nextQuestion(View view) {
         Button answerButton = (Button) view;
         try{
@@ -290,7 +315,6 @@ public class QuizActivity extends AppCompatActivity {
             }, 750);
         }
         if (!chosen_answer.equals(object_correct)) {
-            //if()
             incorrect_str.add(object_correct);
             answerButton.setBackgroundColor(Color.RED);
 
