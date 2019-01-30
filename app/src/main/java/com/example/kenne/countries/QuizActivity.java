@@ -82,6 +82,7 @@ public class QuizActivity extends AppCompatActivity {
                 regions = intent.getStringArrayListExtra("regions");
                 try {
                     allQuestions = new JSONArray(jsonArray);
+                    Log.d("check_check",""+allQuestions);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -93,13 +94,14 @@ public class QuizActivity extends AppCompatActivity {
                 ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
                 COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
 
+                Log.d("check_check111",""+regions+characteristics+COUNTRIES);
                 Quiz testQuiz = new Quiz(regions,characteristics,COUNTRIES);
                 testQuiz.selectCountries();
                 allQuestions = testQuiz.selectComplete(10);
 
                 score = 0;
                 questionIndex = 0;
-
+                Log.d("check_check",""+allQuestions);
                 try {
                     JSONObject current_object = (JSONObject) allQuestions.get(questionIndex);
                     String question_type = current_object.getString("type");
@@ -172,7 +174,11 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        countdown.cancel();
+        try{
+            countdown.cancel();
+        } catch (Error e){
+            e.printStackTrace();
+        }
         this.finish();
     }
 

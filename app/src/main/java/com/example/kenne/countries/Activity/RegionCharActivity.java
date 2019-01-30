@@ -89,6 +89,9 @@ public class RegionCharActivity extends AppCompatActivity {
         if(area.isChecked()){
             characteristics.add("area");
         }
+        if(flag.isChecked()){
+            characteristics.add("flag");
+        }
 
         // Check if if one or more characteristics and!! one or more regions are checked. If that is
         // the case, the ArrayList's can be sent to the new activity (QuizActivity) in an intent. If
