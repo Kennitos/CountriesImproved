@@ -1,4 +1,4 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import com.example.kenne.countries.Activity.DifficultyActivity;
+import com.example.kenne.countries.Object.Country;
+import com.example.kenne.countries.QuizActivity;
+import com.example.kenne.countries.R;
 
 import java.util.ArrayList;
 
@@ -84,7 +89,7 @@ public class RegionCharActivity extends AppCompatActivity {
         if((name.isChecked() || capital.isChecked() || population.isChecked() || language.isChecked() || weather.isChecked() || flag.isChecked()) &
                 (africa.isChecked() || asia.isChecked() || europe.isChecked() || oceania.isChecked() || namerica.isChecked() || samerica.isChecked())){
 //            Toast.makeText(this,"Arrays: "+regions+characteristics,Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, DifficultyActivity.class);
+            Intent intent = new Intent(this, QuizActivity.class);
             intent.putExtra("regions",regions);
             intent.putExtra("characteristics",characteristics);
             intent.putExtra("countries",COUNTRIES);
