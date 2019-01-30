@@ -1,17 +1,14 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Object;
 
-import android.support.v4.math.MathUtils;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 public class Quiz implements Serializable {
     private String question_type, difficulty;
@@ -169,7 +166,7 @@ public class Quiz implements Serializable {
                     entry.put("region",random.getRegion());
                     entry.put("subregion",random.getSubregion());
                     entry.put("iso",random.getIso());
-                    entry.put("type","string");
+                    entry.put("type","pop");
                     entry.put("question",question);
                     entry.put("correct",correct_int);
                     entry.put("answers",new JSONArray(answerList));
@@ -194,7 +191,7 @@ public class Quiz implements Serializable {
                     entry.put("region",random.getRegion());
                     entry.put("subregion",random.getSubregion());
                     entry.put("iso",random.getIso());
-                    entry.put("type","string");
+                    entry.put("type","area");
                     entry.put("question",question);
                     entry.put("correct",correct_int);
                     entry.put("answers",new JSONArray(answerList));

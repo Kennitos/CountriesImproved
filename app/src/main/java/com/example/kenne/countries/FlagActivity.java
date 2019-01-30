@@ -12,11 +12,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.kenne.countries.Activity.CurrentScoreActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +29,7 @@ public class FlagActivity extends AppCompatActivity {
 
     JSONArray allQuestions;
     JSONObject current_object;
+    ArrayList<String> regions, correct_str, incorrect_str;
     String object_name, object_region, object_subregion, object_correct, object_question;
     String complete_url, img_url;
     int score, questionIndex, correct_index;
@@ -34,12 +40,19 @@ public class FlagActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flag);
 
+//        correct_str = new ArrayList<>();
+//        incorrect_str = new ArrayList<>();
+
         Intent intent = getIntent();
         String jsonArray = intent.getStringExtra("continue_quiz");
         score = intent.getIntExtra("score", 0);
         questionIndex = intent.getIntExtra("index", 0);
         complete_url = intent.getStringExtra("map1");
         img_url = intent.getStringExtra("map2");
+        regions = intent.getStringArrayListExtra("regions");
+        correct_str = intent.getStringArrayListExtra("correct");
+        incorrect_str = intent.getStringArrayListExtra("incorrect");
+        Log.d("check_correct_array",""+correct_str+incorrect_str);
 
         try {
             allQuestions = new JSONArray(jsonArray);
@@ -53,12 +66,17 @@ public class FlagActivity extends AppCompatActivity {
     public void checkFlagNext(){
         // check next
         if (questionIndex == allQuestions.length() - 1) {
+            int percentage = score/(allQuestions.length());
             Toast.makeText(getApplicationContext(), "All questions done!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), CurrentScoreActivity.class);
             intent.putExtra("score", score);
-//                            intent.putExtra("regions",regions);
-//                            intent.putExtra("correct",correct_str);
-//                            intent.putExtra("incorrect", incorrect_str);
+            intent.putExtra("regions",regions);
+            intent.putExtra("correct",correct_str);
+            intent.putExtra("incorrect", incorrect_str);
+            intent.putExtra("percentage",percentage);
+            intent.putExtra("total_points",allQuestions.length()*100);
+            intent.putExtra("post","");
+
             startActivity(intent);
             finish();
         } else {
@@ -77,6 +95,10 @@ public class FlagActivity extends AppCompatActivity {
                     intent.putExtra("index", questionIndex + 1);
                     intent.putExtra("map1", complete_url);
                     intent.putExtra("map2", img_url);
+                    intent.putExtra("regions",regions);
+                    intent.putExtra("correct",correct_str);
+                    intent.putExtra("incorrect", incorrect_str);
+
                     startActivity(intent);
                     finish();
                 }
@@ -161,6 +183,7 @@ public class FlagActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 time_view.setText(String.valueOf(millisUntilFinished / 1000));
                 if (millisUntilFinished < 1001) {
+                    incorrect_str.add("Flag of "+object_name);
                     String[] buttonNames = {"A", "B", "C", "D"};
                     List<String> buttonList = Arrays.asList(buttonNames);
                     String correct_a = buttonList.get(correct_index);
@@ -219,6 +242,7 @@ public class FlagActivity extends AppCompatActivity {
         Log.d("check_tag", "tag:" + answerButton.getTag());
 
         if (answerButton.getTag().equals(1)) {
+            correct_str.add("Flag of "+object_name);
             score += time * 10;
             //final Toast score_toast = Toast.makeText(this,"+"+time * 10+" points",Toast.LENGTH_SHORT);
             final Toast score_toast = Toast.makeText(this, "+" + time * 10 + " points", Toast.LENGTH_SHORT);
@@ -233,6 +257,7 @@ public class FlagActivity extends AppCompatActivity {
             answerButton.setBackgroundColor(Color.GREEN);
             Log.d("check_tag", "correct!");
         } else {
+            incorrect_str.add("Flag of "+object_name);
             Log.d("check_tag", "not correct");
             answerButton.setBackgroundColor(Color.RED);
 

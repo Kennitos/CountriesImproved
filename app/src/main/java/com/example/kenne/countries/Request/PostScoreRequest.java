@@ -1,12 +1,9 @@
-package com.example.kenne.countries;
-
-import android.util.Log;
+package com.example.kenne.countries.Request;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.example.kenne.countries.Object.ScoreItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,9 +29,11 @@ public class PostScoreRequest extends StringRequest {
         // Naming the variables
         String name = scoreItem.getPlayer_name();
         int sc = scoreItem.getScore();
+        int percentage = scoreItem.getPercentage();
+        int total = scoreItem.getTotal();
         ArrayList<String> regions = scoreItem.getRegions();
-        ArrayList<Country> correct = scoreItem.getCorrect();
-        ArrayList<Country> incorrect = scoreItem.getIncorrect();
+        ArrayList<String> correct = scoreItem.getCorrect();
+        ArrayList<String> incorrect = scoreItem.getIncorrect();
 
 //        JSONArray jsonRegionsArray = new JSONArray();
 //        for(String r : regions) { jsonRegionsArray.put(r); }
@@ -46,6 +45,8 @@ public class PostScoreRequest extends StringRequest {
         // Putting the variables in the parameters
         params.put("name", name);
         params.put("score", String.valueOf(sc));
+        params.put("percentage", String.valueOf(percentage));
+        params.put("total", String.valueOf(total));
         params.put("regions", regions+"");
         params.put("correct", correct+"");
         params.put("incorrect",incorrect+"");

@@ -1,4 +1,4 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Request;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.kenne.countries.Object.ScoreItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +22,6 @@ public class ScoreRequest implements Response.Listener<JSONArray>, Response.Erro
     Callback activity;
 
     public interface Callback {
-//        void gotScores(ArrayList<HighscoreItem> HighscoreItems);
         void gotScores(ArrayList<ScoreItem> scoreArray);
         void gotScoresError(String message);
     }
@@ -32,7 +32,6 @@ public class ScoreRequest implements Response.Listener<JSONArray>, Response.Erro
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
         Log.d("check_response","error"+error);
     }
 
@@ -42,6 +41,7 @@ public class ScoreRequest implements Response.Listener<JSONArray>, Response.Erro
         ArrayList<ScoreItem> ScoreItems = new ArrayList();
 //        ArrayList<ArrayList> responseArray = new ArrayList<>();
         try {
+            Log.d("check_response","onResponse runt1!");
             for (int i = 0; i < response.length(); i++) {
 //                ArrayList individualArray = new ArrayList();
                 JSONObject scoreObject = response.getJSONObject(i);
@@ -49,22 +49,14 @@ public class ScoreRequest implements Response.Listener<JSONArray>, Response.Erro
                 String name = scoreObject.getString("name");
                 int score = scoreObject.getInt("score");
                 int id = scoreObject.getInt("id");
+                int percentage = scoreObject.getInt("percentage");
+                int total = scoreObject.getInt("total");
                 String regions = scoreObject.getString("regions");
                 String correct = scoreObject.getString("correct");
                 String incorrect = scoreObject.getString("incorrect");
 
-                ScoreItem scoreItem = new ScoreItem(name, score, regions, correct, incorrect);
+                ScoreItem scoreItem = new ScoreItem(name, score, regions, correct, incorrect, percentage, total);
                 ScoreItems.add(scoreItem);
-//                individualArray.add(id);
-//                individualArray.add(name);
-//                individualArray.add(score);
-//                individualArray.add(regions);
-//                individualArray.add(correct);
-//                individualArray.add(incorrect);
-
-//                HighscoreItem highscoreItem = new HighscoreItem(name,highscore,id);
-//                HighscoreItems.add(highscoreItem);
-//                responseArray.add(individualArray);
             }
             Log.d("check_response",""+ScoreItems);
             activity.gotScores(ScoreItems);

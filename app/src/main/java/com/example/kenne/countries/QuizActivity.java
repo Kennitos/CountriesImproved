@@ -12,6 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.kenne.countries.Activity.CurrentScoreActivity;
+import com.example.kenne.countries.Object.Country;
+import com.example.kenne.countries.Object.Quiz;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
@@ -56,6 +60,9 @@ public class QuizActivity extends AppCompatActivity {
                 questionIndex = intent.getIntExtra("index",0);
                 complete_url = intent.getStringExtra("map1");
                 img_url = intent.getStringExtra("map2");
+                correct_str = intent.getStringArrayListExtra("correct");
+                incorrect_str = intent.getStringArrayListExtra("incorrect");
+                regions = intent.getStringArrayListExtra("regions");
                 try {
                     allQuestions = new JSONArray(jsonArray);
                 } catch (JSONException e) {
@@ -65,12 +72,13 @@ public class QuizActivity extends AppCompatActivity {
             }
             else {
                 regions = intent.getStringArrayListExtra("regions");
+                // skip the DifficultyActivity, so
                 ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
-                String type = intent.getStringArrayListExtra("difficulty").get(0);
-                String difficulty = intent.getStringArrayListExtra("difficulty").get(1);
+//                String type = intent.getStringArrayListExtra("difficulty").get(0);
+//                String difficulty = intent.getStringArrayListExtra("difficulty").get(1);
                 COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
 
-                Quiz testQuiz = new Quiz(type,difficulty,regions,characteristics,COUNTRIES);
+                Quiz testQuiz = new Quiz("open","easy",regions,characteristics,COUNTRIES);
                 testQuiz.selectCountries();
                 allQuestions = testQuiz.selectComplete(10);
 
@@ -80,7 +88,7 @@ public class QuizActivity extends AppCompatActivity {
                 try {
                     JSONObject current_object = (JSONObject) allQuestions.get(questionIndex);
                     String question_type = current_object.getString("type");
-                    Log.d("check_flag","check2"+type);
+                    Log.d("check_flag","check2"+question_type);
                     if(question_type.equals("img")){
                         object_name = current_object.getString("name");
                         object_region = current_object.getString("region");
@@ -95,9 +103,13 @@ public class QuizActivity extends AppCompatActivity {
                         Intent new_intent = new Intent(getApplicationContext(),FlagActivity.class);
                         new_intent.putExtra("continue_quiz",allQuestions.toString());
                         new_intent.putExtra("score",score);
+                        new_intent.putExtra("regions", regions);
                         new_intent.putExtra("index",questionIndex);
+                        new_intent.putExtra("correct",correct_str);
+                        new_intent.putExtra("incorrect", incorrect_str);
                         new_intent.putExtra("map1",complete_url);
                         new_intent.putExtra("map2",img_url);
+                        Log.d("check_correct_array1","11"+correct_str+incorrect_str);
                         startActivity(new_intent);
                         finish();
                         Log.d("check_flag","check4");
@@ -122,7 +134,10 @@ public class QuizActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),FlagActivity.class);
                 intent.putExtra("continue_quiz",allQuestions.toString());
                 intent.putExtra("score",score);
+                intent.putExtra("regions",regions);
                 intent.putExtra("index",questionIndex+1);
+                intent.putExtra("correct",correct_str);
+                intent.putExtra("incorrect", incorrect_str);
                 intent.putExtra("map1",complete_url);
                 intent.putExtra("map2",img_url);
                 startActivity(intent);
@@ -145,125 +160,12 @@ public class QuizActivity extends AppCompatActivity {
 
     public void loadQuestions(int index){
         Log.d("check_continue","hij gaat door");
-        try {
-            current_object = (JSONObject) allQuestions.get(index);
-            object_name = current_object.getString("name");
-            object_region = current_object.getString("region");
-            object_subregion = current_object.getString("subregion");
-            object_iso = current_object.getString("iso");
-            object_correct = current_object.getString("correct");
-            object_question = current_object.getString("question");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         TextView regionView = findViewById(R.id.regionView);
         TextView questionView = findViewById(R.id.questionView);
         TextView remainingView = findViewById(R.id.remainingView);
         TextView scoreView = findViewById(R.id.scoreView);
         final TextView timeView = findViewById(R.id.timeView);
-        ImageView imageView = findViewById(R.id.countryView);
-
-
-        EncryptionMD5 createString = new EncryptionMD5(object_name, object_region, object_subregion);
-        complete_url = createString.CreateEncryption();
-        // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
-
-        if(object_subregion.equals("South America")){
-            Picasso.get().load(complete_url).into(imageView);
-        } else {
-            Picasso.get().load(complete_url).resize(650, 650).into(imageView);
-        }
-//        Picasso.get().load(complete_url).resize(650, 650).into(imageView);
-        // removed .centerCrop()
-
-        // bron - 'https://stackoverflow.com/questions/25749055/how-to-test-if-an-image-is-fully-loaded-with-picasso'
-        final AtomicBoolean loaded = new AtomicBoolean();
-        Picasso.get().load(complete_url).resize(650, 650).into(imageView, new Callback.EmptyCallback() {
-            @Override public void onSuccess() {
-                loaded.set(true);
-                countdown = new CountDownTimer(11000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        timeView.setText(String.valueOf(millisUntilFinished / 1000));
-                        if(millisUntilFinished<1001){
-//                            incorrect.add(current);
-                            incorrect_str.add(object_correct);
-                            String[] buttonNames = {"a","b","c","d"};
-                            List<String> buttonList = Arrays.asList( buttonNames );
-
-                            for (int i = 0; i < buttonList.size(); i++) {
-                                Button button = findViewById(getResources().getIdentifier(buttonList.get(i)+"Button", "id",
-                                        getApplicationContext().getPackageName()));
-                                String buttonText = button.getText().toString();
-//                                if(buttonText.equals(current.getName())){
-                                if(buttonText.equals(object_correct)){
-                                    button.setBackgroundColor(Color.GREEN);
-                                }
-                            }
-                            Button button_a = findViewById(R.id.aButton);
-                            Button button_b = findViewById(R.id.bButton);
-                            Button button_c = findViewById(R.id.cButton);
-                            Button button_d = findViewById(R.id.dButton);
-
-                            button_a.setEnabled(false);
-                            button_b.setEnabled(false);
-                            button_c.setEnabled(false);
-                            button_d.setEnabled(false);
-                        }
-                    }
-                    public void onFinish() {
-                        timeView.setText(R.string.slow);
-                        // Check what the next type of question is
-                        checkNext();
-                    }
-                }.start();
-            }
-            @Override
-            public void onError(Exception e) {
-                ImageView imageView = findViewById(R.id.countryView);
-                img_url = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+object_iso+"/512.png";
-                Picasso.get().load(img_url).centerCrop().resize(512, 512).into(imageView);
-                Toast.makeText(getApplicationContext(),"substitution image",Toast.LENGTH_SHORT).show();
-                countdown = new CountDownTimer(11000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        timeView.setText(String.valueOf(millisUntilFinished / 1000));
-                        if(millisUntilFinished<1001){
-                            incorrect_str.add(object_correct);
-                            String[] buttonNames = {"a","b","c","d"};
-                            List<String> buttonList = Arrays.asList( buttonNames );
-
-                            for (int i = 0; i < buttonList.size(); i++) {
-                                Button button = findViewById(getResources().getIdentifier(buttonList.get(i)+"Button", "id",
-                                        getApplicationContext().getPackageName()));
-                                String buttonText = button.getText().toString();
-                                if(buttonText.equals(object_correct)){
-                                    button.setBackgroundColor(Color.GREEN);
-                                }
-                            }
-                            Button button_a = findViewById(R.id.aButton);
-                            Button button_b = findViewById(R.id.bButton);
-                            Button button_c = findViewById(R.id.cButton);
-                            Button button_d = findViewById(R.id.dButton);
-
-                            button_a.setEnabled(false);
-                            button_b.setEnabled(false);
-                            button_c.setEnabled(false);
-                            button_d.setEnabled(false);
-                        }
-                    }
-                    public void onFinish() {
-                        timeView.setText(R.string.slow);
-                        // Check what the next type of question is
-                        checkNext();
-                    }
-                }.start();
-            }
-        });
-
-        regionView.setText(object_region);
-        remainingView.setText(String.valueOf(questionIndex+1+"/"+allQuestions.length()));
-        scoreView.setText(String.valueOf(score));
-        questionView.setText(object_question);
 
         Button button_a = findViewById(R.id.aButton);
         Button button_b = findViewById(R.id.bButton);
@@ -281,6 +183,23 @@ public class QuizActivity extends AppCompatActivity {
         button_d.setEnabled(true);
 
         try {
+            current_object = (JSONObject) allQuestions.get(index);
+            object_name = current_object.getString("name");
+            object_region = current_object.getString("region");
+            object_subregion = current_object.getString("subregion");
+            object_iso = current_object.getString("iso");
+            object_correct = current_object.getString("correct");
+            object_question = current_object.getString("question");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        regionView.setText(object_region);
+        remainingView.setText(String.valueOf(questionIndex+1+"/"+allQuestions.length()));
+        scoreView.setText(String.valueOf(score));
+        questionView.setText(object_question);
+
+        try {
             button_a.setText((String) current_object.getJSONArray("answers").get(0));
             button_b.setText((String) current_object.getJSONArray("answers").get(1));
             button_c.setText((String) current_object.getJSONArray("answers").get(2));
@@ -288,6 +207,65 @@ public class QuizActivity extends AppCompatActivity {
         } catch (JSONException e){
             e.printStackTrace();
         }
+
+
+        EncryptionMD5 createString = new EncryptionMD5(object_name, object_region, object_subregion);
+        complete_url = createString.CreateEncryption();
+        // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
+
+//        if(object_subregion.equals("South America")){
+//            Picasso.get().load(complete_url).into(imageView);
+//        } else {
+//            Picasso.get().load(complete_url).resize(650, 650).into(imageView);
+//        }
+//        Picasso.get().load(complete_url).resize(650, 650).into(imageView);
+        // removed .centerCrop()
+
+        countdown = new CountDownTimer(11000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                timeView.setText(String.valueOf(millisUntilFinished / 1000));
+                if(millisUntilFinished<1001){
+//                            incorrect.add(current);
+
+                    incorrect_str.add(object_correct);
+                    String[] buttonNames = {"a","b","c","d"};
+                    List<String> buttonList = Arrays.asList( buttonNames );
+
+                    for (int i = 0; i < buttonList.size(); i++) {
+                        Button button = findViewById(getResources().getIdentifier(buttonList.get(i)+"Button", "id",
+                                getApplicationContext().getPackageName()));
+                        String buttonText = button.getText().toString();
+//                                if(buttonText.equals(current.getName())){
+                        if(buttonText.equals(object_correct)){
+                            button.setBackgroundColor(Color.GREEN);
+                        }
+                        button.setEnabled(false);
+                    }
+                }
+            }
+            public void onFinish() {
+                timeView.setText(R.string.slow);
+                // Check what the next type of question is
+                checkNext();
+            }
+        };
+
+        // bron - 'https://stackoverflow.com/questions/25749055/how-to-test-if-an-image-is-fully-loaded-with-picasso'
+        ImageView imageView = findViewById(R.id.countryView);
+        Picasso.get().load(complete_url).resize(650, 650).into(imageView, new Callback.EmptyCallback() {
+            @Override public void onSuccess() {
+                super.onSuccess();
+                countdown.start();
+            }
+            @Override
+            public void onError(Exception e) {
+                ImageView imageView = findViewById(R.id.countryView);
+                img_url = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+object_iso+"/512.png";
+                Picasso.get().load(img_url).centerCrop().resize(512, 512).into(imageView);
+                Toast.makeText(getApplicationContext(),"substitution image",Toast.LENGTH_SHORT).show();
+                countdown.start();
+            }
+        });
     }
 
     public void nextQuestion(View view) {
@@ -318,7 +296,7 @@ public class QuizActivity extends AppCompatActivity {
             }, 750);
         }
         if (!chosen_answer.equals(object_correct)) {
-//            incorrect.add(current);
+            //if()
             incorrect_str.add(object_correct);
             answerButton.setBackgroundColor(Color.RED);
 
@@ -338,12 +316,16 @@ public class QuizActivity extends AppCompatActivity {
 
         // Repeat the the whole process until all questions are done, start intent to go new activity
         if (questionIndex == allQuestions.length()-1) {
+            int percentage = score/(allQuestions.length());
             Toast.makeText(this, "All questions done!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CurrentScoreActivity.class);
             intent.putExtra("score", score);
             intent.putExtra("regions",regions);
             intent.putExtra("correct",correct_str);
             intent.putExtra("incorrect", incorrect_str);
+            intent.putExtra("percentage", percentage);
+            intent.putExtra("total_points",allQuestions.length()*100);
+            intent.putExtra("post","");
             // Use finish() to make it not possible to go back to this page from the highscore activity
             startActivity(intent);
             finish();

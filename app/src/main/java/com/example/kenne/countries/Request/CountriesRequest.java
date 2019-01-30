@@ -1,4 +1,4 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Request;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.kenne.countries.Object.Country;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,9 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                 JSONObject countryObject = response.getJSONObject(i);
                 String name = countryObject.getString("name");
                 String capital = countryObject.getString("capital");
+                if(capital.equals("")){
+                    capital = "It has no capital";
+                }
                 String iso = countryObject.getString("alpha2Code").toLowerCase();
                 String region = countryObject.getString("region");
                 String subregion = countryObject.getString("subregion");
@@ -48,9 +52,26 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                 // optInt turns null values into zero's
                 int area = countryObject.optInt("area");
 
+                JSONArray coor = countryObject.getJSONArray("latlng");
+                double[] coor_numbers = new double[coor.length()];
 
-                Country countryInput = new Country(name, capital, iso, region, subregion, area, population, flag);
-//                Log.d("connect_test",""+i+' '+countryInput.getName()+' '+countryInput.getCapital()+' '+countryInput.getArea());
+                // Extract numbers from JSON array.
+                for (int c = 0; c < coor.length(); ++c) {
+                    coor_numbers[c] = coor.optDouble(c);
+                }
+                Double lat = coor.optDouble(0);
+                Double lng = coor.optDouble(1);
+
+                ArrayList<String> languages = new ArrayList<>();
+                JSONArray languageJson = countryObject.getJSONArray("languages");
+                for(int lan = 0; lan < languageJson.length(); lan++){
+                    JSONObject languageObject = languageJson.getJSONObject(lan);
+                    String languageName = languageObject.getString("name");
+                    languages.add(languageName);
+                }
+
+                Country countryInput = new Country(name, capital, iso, region, subregion, area, population, flag, languages, lat, lng);
+                Log.d("connect_test",""+i+' '+countryInput.getName()+coor+coor_numbers);
                 CountriesArray.add(countryInput);
             }
             activity.gotCountries(CountriesArray);
