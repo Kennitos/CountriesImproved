@@ -1,3 +1,12 @@
+/*
+RegionCharActivity.java
+
+This activity will determine which regions and characteristics the quiz will include. It will send
+those variables to the next activity (QuizActivity) and create the Quiz in that activity.
+
+@ author        Kennet Botan
+*/
+
 package com.example.kenne.countries.Activity;
 
 import android.content.Intent;
@@ -7,7 +16,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import com.example.kenne.countries.Activity.DifficultyActivity;
 import com.example.kenne.countries.Object.Country;
 import com.example.kenne.countries.QuizActivity;
 import com.example.kenne.countries.R;
@@ -16,6 +24,7 @@ import java.util.ArrayList;
 
 public class RegionCharActivity extends AppCompatActivity {
 
+    // Create the variables that will be used through the whole activity;
     ArrayList<Country> COUNTRIES;
 
     @Override
@@ -23,11 +32,14 @@ public class RegionCharActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_region_char);
 
+        // Get the intent from the HomeActivity
         Intent intent = getIntent();
         COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
     }
 
-    public void goToChar(View view){
+    // This function will check all checkboxes and add them to either one of the two ArrayList's.
+    public void goToQuiz(View view){
+        // Name the diffrenct checkboxes (for regions)
         CheckBox africa = findViewById(R.id.checkAfrica);
         CheckBox asia = findViewById(R.id.checkAsia);
         CheckBox europe = findViewById(R.id.checkEurope);
@@ -35,6 +47,7 @@ public class RegionCharActivity extends AppCompatActivity {
         CheckBox namerica = findViewById(R.id.checkNorthAmerica);
         CheckBox samerica = findViewById(R.id.checkSouthAmerica);
 
+        // Add variable String's to a new ArrayList.
         ArrayList<String> regions = new ArrayList<>();
         if(africa.isChecked()){
             regions.add("Africa");
@@ -55,14 +68,14 @@ public class RegionCharActivity extends AppCompatActivity {
             regions.add("South America");
         }
 
+        // Name the different checkboxes (for characteristics)
         CheckBox name = findViewById(R.id.checkName);
         CheckBox capital = findViewById(R.id.checkCapital);
         CheckBox population = findViewById(R.id.checkPopulation);
         CheckBox area = findViewById(R.id.checkArea);
-        CheckBox language = findViewById(R.id.checkLanguage);
-        CheckBox weather = findViewById(R.id.checkWeather);
         CheckBox flag = findViewById(R.id.checkFlag);
 
+        // Add variable String's to a new ArrayList.
         ArrayList<String> characteristics = new ArrayList<>();
         if(name.isChecked()){
             characteristics.add("name");
@@ -76,19 +89,13 @@ public class RegionCharActivity extends AppCompatActivity {
         if(area.isChecked()){
             characteristics.add("area");
         }
-        if(language.isChecked()){
-            characteristics.add("language");
-        }
-        if(weather.isChecked()){
-            characteristics.add("weather");
-        }
-        if(flag.isChecked()){
-            characteristics.add("flag");
-        }
 
-        if((name.isChecked() || capital.isChecked() || population.isChecked() || language.isChecked() || weather.isChecked() || flag.isChecked()) &
+        // Check if if one or more characteristics and!! one or more regions are checked. If that is
+        // the case, the ArrayList's can be sent to the new activity (QuizActivity) in an intent. If
+        // is not the case, print a toast explaining to the user that she (not sexist) needs to make
+        // a choice :P
+        if((name.isChecked() || capital.isChecked() || population.isChecked() || area.isChecked() || flag.isChecked())  &
                 (africa.isChecked() || asia.isChecked() || europe.isChecked() || oceania.isChecked() || namerica.isChecked() || samerica.isChecked())){
-//            Toast.makeText(this,"Arrays: "+regions+characteristics,Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, QuizActivity.class);
             intent.putExtra("regions",regions);
             intent.putExtra("characteristics",characteristics);
@@ -96,7 +103,8 @@ public class RegionCharActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            Toast.makeText(this,"Choose characteristic and region  ",Toast.LENGTH_LONG).show();
+            // Print the toast if the user has not properly selected the regions/characteristics
+            Toast.makeText(this,"Choose at least a characteristic and region  ",Toast.LENGTH_LONG).show();
         }
 
     }

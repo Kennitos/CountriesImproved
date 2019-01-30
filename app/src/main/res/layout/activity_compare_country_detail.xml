@@ -16,9 +16,8 @@
 
         <TextView
             android:id="@+id/nameView1"
-            android:layout_width="wrap_content"
+            android:layout_width="177dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="start"
             android:shadowColor="@android:color/black"
             android:shadowDx="1"
@@ -31,7 +30,7 @@
 
         <TextView
             android:id="@+id/nameView2"
-            android:layout_width="wrap_content"
+            android:layout_width="177dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"

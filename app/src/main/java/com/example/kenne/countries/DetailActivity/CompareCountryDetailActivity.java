@@ -1,3 +1,13 @@
+/*
+CompareCountryDetailActivity.java
+
+This activity will display two different countries and characteristics side by side. On this activity
+the weather will be queried with the WeatherRequest. There are no other functionalities on this
+activity.
+
+@ author        Kennet Botan
+*/
+
 package com.example.kenne.countries.DetailActivity;
 
 import android.content.Intent;
@@ -19,7 +29,7 @@ import java.util.ArrayList;
 
 public class CompareCountryDetailActivity extends AppCompatActivity implements WeatherRequest.Callback{
 
-    ArrayList<ArrayList<String>> multi = new ArrayList<>();
+    // Create the variables that will be used through the whole activity;
     int State = 0;
 
     @Override
@@ -27,10 +37,12 @@ public class CompareCountryDetailActivity extends AppCompatActivity implements W
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare_country_detail);
 
+        // Get intent and its two countries
         Intent intent = getIntent();
         Country selected1 = (Country) intent.getSerializableExtra("selected1");
         Country selected2 = (Country) intent.getSerializableExtra("selected2");
 
+        // Assign the TextView's of the left side (name1, etc.) and of the right side (name2, etc.)
         TextView name1 = findViewById(R.id.nameView1);
         TextView region1 = findViewById(R.id.regionView1);
         TextView subregion1  = findViewById(R.id.subregionView1);
@@ -49,7 +61,6 @@ public class CompareCountryDetailActivity extends AppCompatActivity implements W
         TextView language2 = findViewById(R.id.languageView2);
         ImageView map2 = findViewById(R.id.mapView2);
 
-
         // Fill in data for country 1
         name1.setText(selected1.getName());
         region1.setText(selected1.getRegion());
@@ -59,9 +70,14 @@ public class CompareCountryDetailActivity extends AppCompatActivity implements W
 
         String img_url1 = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+selected1.getIso()+"/512.png";
         Picasso.get().load(img_url1).centerCrop().resize(512, 512).into(map1);
+        // If the population is 0, display "not available"
         if(selected1.getPopulation()==0){
             population1.setText("not available");
         } else {
+            // NumberFormat.getIntegerInstance().format() will format digits to digits with separators
+            // for units of thousands, example below:
+            // 29.649.304 if your phone settings are European country (except UK)
+            // 29,649,304 if your phone settings are in US, UK, Australia
             population1.setText(NumberFormat.getIntegerInstance().format(selected1.getPopulation()));
         }
 
@@ -73,6 +89,7 @@ public class CompareCountryDetailActivity extends AppCompatActivity implements W
         }
 
         // Fill in data for country 2
+        // The same principal as for filling in the data for country 1
         name2.setText(selected2.getName());
         region2.setText(selected2.getRegion());
         subregion2.setText(selected2.getSubregion());
@@ -93,21 +110,19 @@ public class CompareCountryDetailActivity extends AppCompatActivity implements W
             area2.setText(area);
         }
 
+        // Run the WeatherRequest two times, for selected1 and selected2
         WeatherRequest x = new WeatherRequest(this);
         x.getWeather(this,selected1.getLat(),selected1.getLng());
 
         WeatherRequest y = new WeatherRequest(this);
         y.getWeather(this,selected2.getLat(),selected2.getLng());
-
-        Log.d("check_weather","list_1:"+multi+x);
     }
 
     @Override
     public void gotWeather(ArrayList<String> weatherList){
-
-        Log.d("check_weather","list_x:"+weatherList);
-        multi.add(weatherList);
-        Log.d("check_weather","list_added:"+multi);
+        // int State = 0 was created at line.33 when x.getWeather runs the gotWeather the state will
+        // still be 0. It will set the value for weather1View, after which the state becomes 1.
+        // So when y.getWeather runs the gotWeather, it will set the value for weather2View.
         if(State==0){
             TextView weather1View = findViewById(R.id.weatherView1);
             weather1View.setText(String.valueOf(weatherList.get(0)+", "+weatherList.get(1)));
@@ -116,8 +131,6 @@ public class CompareCountryDetailActivity extends AppCompatActivity implements W
             weather2View.setText(String.valueOf(weatherList.get(0)+", "+weatherList.get(1)));
         }
         State+=1;
-//        TextView weatherView = findViewById(R.id.weatherOutputView);
-//        weatherView.setText(String.valueOf(weatherList.get(0)+", "+weatherList.get(1)));
     }
 
     @Override

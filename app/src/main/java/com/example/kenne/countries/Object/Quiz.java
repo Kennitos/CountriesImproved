@@ -1,44 +1,38 @@
-package com.example.kenne.countries.Object;
+/*
+Quiz.java
 
-import android.util.Log;
+This class Quiz will be used to create the actual Quiz. There is a .selectCountries() that will
+create an ArrayList<Countries> of countries that are selected based on the chosen region(s). The
+.selectComplete(i) will create the questions based on the chosen characteristics, it will return a
+JSONArray format.
+
+@ author        Kennet Botan
+*/
+
+package com.example.kenne.countries.Object;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Quiz implements Serializable {
-    private String question_type, difficulty;
-    private int score, num1, num2, num3;
     private ArrayList<String> regions, characteristics;
     private ArrayList<Country> countries;
     private ArrayList<Country> quiz_countries;
 
-    {
-        // instance initializer; runs before any constructor
-        score = 0;
-        quiz_countries = new ArrayList<>();
-        clear();
-    }
-
-    public Quiz(String question_type, String difficulty, ArrayList<String> regions, ArrayList<String> characteristics, ArrayList<Country> countries){
-        this.question_type = question_type;
-        this.difficulty = difficulty;
+    // Constructor
+    public Quiz(ArrayList<String> regions, ArrayList<String> characteristics, ArrayList<Country> countries){
         this.regions = regions;
         this.characteristics = characteristics;
         this.countries = countries;
     }
 
-    public void clear(){
-        score = 0;
-//        ...
-//        ...
-    }
-
+    // Select all the countries based on the chosen region(s) (let's say chosenA)
     public ArrayList<Country> selectCountries(){
+        quiz_countries = new ArrayList<>();
         for(int i = 0; i < countries.size(); i++){
             Country item = countries.get(i);
             if(regions.contains(item.getRegion())){
@@ -55,22 +49,8 @@ public class Quiz implements Serializable {
         return  quiz_countries;
     }
 
-    public ArrayList<Country> select(int x){
-        ArrayList<Country> random_countries = (ArrayList<Country>)quiz_countries.clone();
-        Collections.shuffle(random_countries);
-//        KAN DIT NIET IN 1 REGEL??
-        ArrayList<Country> few_countries = new ArrayList<>();
-        for(int i = 0; i <x; i++){
-            few_countries.add(random_countries.get(i));
-        }
-//        Arrays.copyOf(random_countries,10);
-//        ArrayList[] ab = Arrays.copyOf(new ArrayList[]{random_countries},10);
-//        random_countries.slice(0, 10);
-//        ArrayList<Country> random_countries;
-//        random_countries = Arrays.copyOf(new ArrayList<Country>[]{quiz_countries}, 10);
-        return few_countries;
-    }
-
+    // Select all countries of based on their characteristic of the already selected countries prior
+    // with .selectCountries. We basically "trim" down the selection.
     public JSONArray selectComplete(int x){
         ArrayList<Country> random_countries = (ArrayList<Country>)quiz_countries.clone();
         Collections.shuffle(random_countries);
@@ -79,15 +59,21 @@ public class Quiz implements Serializable {
         random_order.addAll(random_countries);
         Collections.shuffle(random_order);
 
-
+        // Create a JSONArray and add a JSONObject for each characteristic (if the characteristic was chosen)
+        // for each country
         JSONArray allQuestionsArray = new JSONArray();
         int y = 1;
         for(int i = 0; i < x; i++){
             Country random = random_countries.get(i);
+            // If the characteristic 'name' was chosen, create a JSONObject and add it to the JSONArray
+            // ,if not skip this characteristic and check the following characteristic (so on, so on)
+            // This continues looping all the countries, creating the JSONArray
             if(characteristics.contains("name")){
                 String question = "What is the name of this country?";
                 String correct = random.getName();
 
+                // Create 'dummy' answers (incorrect answers) and add them in an ArrayList with the
+                // correct answer
                 Collections.shuffle(random_order);
                 ArrayList<String> answerList = new ArrayList<>();
                 answerList.add(correct);
@@ -118,6 +104,8 @@ public class Quiz implements Serializable {
 
                 y += 1;
             }
+            // Repeat this process for the other characteristics, it has the same principal but differs
+            // slightly
             if(characteristics.contains("capital")){
                 String question = "What is the capital of "+random.getName()+"?";
                 String correct = random.getCapital();
@@ -154,6 +142,7 @@ public class Quiz implements Serializable {
             if(characteristics.contains("population")){
                 String question = "What is the population of "+random.getName()+"?";
 
+                // Use te created class DummyIntegers to create the dummy integers
                 DummyIntegers dummyIntegers = new DummyIntegers(random.getPopulation(),"pop");
                 dummyIntegers.create();
                 String correct_int = dummyIntegers.getCorrect_int();
@@ -236,7 +225,7 @@ public class Quiz implements Serializable {
                 y += 1;
             }
         }
-        Log.d("jsonarray",""+allQuestionsArray);
+        // When done, return the created JSONArray with all the questions/answers of the Quiz
         return allQuestionsArray;
     }
 }

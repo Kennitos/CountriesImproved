@@ -109,20 +109,6 @@
             android:text="@string/area" />
 
         <CheckBox
-            android:id="@+id/checkLanguage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/colorPrimaryDark"
-            android:text="@string/language" />
-
-        <CheckBox
-            android:id="@+id/checkWeather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/colorPrimaryDark"
-            android:text="@string/weather" />
-
-        <CheckBox
             android:id="@+id/checkFlag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,12 +118,12 @@
 
     <Button
         android:id="@+id/continueButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corners"
         android:layout_gravity="end"
-        android:onClick="goToChar"
-        android:text="@string/continue_str"
+        android:background="@drawable/rounded_corners"
+        android:onClick="goToQuiz"
+        android:text="@string/start_quiz"
         android:textColor="@android:color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 </LinearLayout>

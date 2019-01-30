@@ -1,3 +1,16 @@
+/*
+FlagActivity.java
+
+This activity handle all the questions of the quiz concerning the flag questions. When a quiz is started
+in QuizActivity, during the quiz the app will look ahead one question and checks if it is a question
+concerning flags. If that is the case, an intent is started and the user will be redirected from the
+QuizActivity to the FlagActivity. For exapmle if a quiz has questions about the country name, capital
+and flag, it will cycle back and forth between QuizActivity and FlagActivity. During that cycling back
+and forth the values will be passed on with intents each time.
+
+@ author        Kennet Botan
+*/
+
 package com.example.kenne.countries;
 
 import android.content.Intent;
@@ -27,6 +40,7 @@ import java.util.List;
 
 public class FlagActivity extends AppCompatActivity {
 
+    // Create the variables that will be used through the whole activity;
     JSONArray allQuestions;
     JSONObject current_object;
     ArrayList<String> regions, correct_str, incorrect_str;
@@ -40,9 +54,7 @@ public class FlagActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flag);
 
-//        correct_str = new ArrayList<>();
-//        incorrect_str = new ArrayList<>();
-
+        // Get intent and its values (extra's)
         Intent intent = getIntent();
         String jsonArray = intent.getStringExtra("continue_quiz");
         score = intent.getIntExtra("score", 0);
@@ -52,19 +64,25 @@ public class FlagActivity extends AppCompatActivity {
         regions = intent.getStringArrayListExtra("regions");
         correct_str = intent.getStringArrayListExtra("correct");
         incorrect_str = intent.getStringArrayListExtra("incorrect");
-        Log.d("check_correct_array",""+correct_str+incorrect_str);
-
         try {
             allQuestions = new JSONArray(jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        // Load the question based on the questionIndex that is passed through the intent.
         loadAfterFlag(questionIndex);
     }
 
+
+    // This function (checkFlagNext) checks whether all questions are asked and whether what kind of question the next
+    // one is (questionIndex+1). If the next question is a question about flags, the users stays
+    // on this (FlagActivity) activity. It will load another question with loadAfterFlag.
+    // If the next question is not a question about flags, the users get redirected to the QuizActivity,
+    // all the values will be sent with an intent.
+
     public void checkFlagNext(){
-        // check next
+        // Check next question, if the last question: start intent to go to CurrentScoreActivity
         if (questionIndex == allQuestions.length() - 1) {
             int percentage = score/(allQuestions.length());
             Toast.makeText(getApplicationContext(), "All questions done!", Toast.LENGTH_SHORT).show();
@@ -83,7 +101,8 @@ public class FlagActivity extends AppCompatActivity {
             try {
                 JSONObject next_object = (JSONObject) allQuestions.get(questionIndex + 1);
                 String type = next_object.getString("type");
-                // If the next type of question is img (flag), go to the stay on this activity
+                // If the next type of question is img (flag), stay on this activity and load new
+                // question with loadAfterFlag
                 if (type.equals("img")) {
                     questionIndex += 1;
                     loadAfterFlag(questionIndex);
@@ -108,31 +127,39 @@ public class FlagActivity extends AppCompatActivity {
         }
     }
 
+    // This function will load the activity with the all the values of the question
+    // For example the TextView for the String of the question will set, etc.
     public void loadAfterFlag(int index) {
+        // Assign the TextViews
         TextView score_view = findViewById(R.id.scoreFlagView);
         TextView remaining_view = findViewById(R.id.remainingFlagView);
         TextView question_view = findViewById(R.id.questionFlagView);
         TextView region_view = findViewById(R.id.regionFlagView);
         final TextView time_view = findViewById(R.id.timeFlagView);
 
+        // Set Textviews with values
         score_view.setText(String.valueOf(score));
         remaining_view.setText(String.valueOf(index + 1 + "/" + allQuestions.length()));
 
-        ImageButton button_a = findViewById(R.id.imageButtonA);
-        ImageButton button_b = findViewById(R.id.imageButtonB);
-        ImageButton button_c = findViewById(R.id.imageButtonC);
-        ImageButton button_d = findViewById(R.id.imageButtonD);
+        // Assign ImageButtons
+        final ImageButton button_a = findViewById(R.id.imageButtonA);
+        final ImageButton button_b = findViewById(R.id.imageButtonB);
+        final ImageButton button_c = findViewById(R.id.imageButtonC);
+        final ImageButton button_d = findViewById(R.id.imageButtonD);
 
+        // Make them transparent again, only the flag is visible (not the button)
         button_a.setBackgroundColor(Color.TRANSPARENT);
         button_b.setBackgroundColor(Color.TRANSPARENT);
         button_c.setBackgroundColor(Color.TRANSPARENT);
         button_d.setBackgroundColor(Color.TRANSPARENT);
 
+        //
         button_a.setEnabled(true);
         button_b.setEnabled(true);
         button_c.setEnabled(true);
         button_d.setEnabled(true);
 
+        // Set TextViews and the images of the flags for the ImageButtons
         try {
             current_object = (JSONObject) allQuestions.get(index);
             object_name = current_object.getString("name");
@@ -166,6 +193,8 @@ public class FlagActivity extends AppCompatActivity {
             List<String> buttonList = Arrays.asList(buttonNames);
             String correct_a = buttonList.get(correct_index);
 
+            // Give the correct ImageButton a Tag of '1'. Later on we use this tag to check which
+            // ImageButton is the correct answer
             for (int i = 0; i < buttonList.size(); i++) {
                 ImageButton button = findViewById(getResources().getIdentifier("imageButton" + buttonList.get(i), "id",
                         getApplicationContext().getPackageName()));
@@ -179,6 +208,8 @@ public class FlagActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Create a countdown that will countdown from 10 to 0, where during the last second of the
+        // countdown the buttons will become disable, so that you cant press them anymore
         countdown = new CountDownTimer(11000, 1000) {
             public void onTick(long millisUntilFinished) {
                 time_view.setText(String.valueOf(millisUntilFinished / 1000));
@@ -201,8 +232,8 @@ public class FlagActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                // Display to the user that he was to slow with his answer and load the new checkFlagNext
                 time_view.setText(R.string.slow);
-                // check next
                 checkFlagNext();
             }
         };
@@ -215,20 +246,34 @@ public class FlagActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 super.onSuccess();
+                // Make buttons enabled again
+                button_a.setEnabled(true);
+                button_b.setEnabled(true);
+                button_c.setEnabled(true);
+                button_d.setEnabled(true);
                 countdown.start();
             }
 
+            // If the image of the map of the country of the code above doesn't load, then load
+            // this backup image of map of the country
             @Override
             public void onError(Exception e) {
                 super.onError(e);
                 ImageView imageView = findViewById(R.id.countryFlagView);
                 Picasso.get().load(img_url).centerCrop().resize(512, 512).into(imageView);
+                // Make buttons enabled again
+                button_a.setEnabled(true);
+                button_b.setEnabled(true);
+                button_c.setEnabled(true);
+                button_d.setEnabled(true);
                 countdown.start();
             }
         });
     }
 
+    // This function will run after a ImageButton is pressed
     public void questionAfterFlag(View view) {
+        // Check which button is pressed
         ImageButton answerButton = (ImageButton) view;
 
         TextView time_view = findViewById(R.id.timeFlagView);
@@ -239,12 +284,13 @@ public class FlagActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d("check_tag", "tag:" + answerButton.getTag());
-
+        // Check if the button is the correct answer with the Tag of '1' created in line.202
         if (answerButton.getTag().equals(1)) {
+            // If this is the correct answer, add the answer to the list of correct answers
+            // and make the answer GREEN for the period of 1.0 second
             correct_str.add("Flag of "+object_name);
             score += time * 10;
-            //final Toast score_toast = Toast.makeText(this,"+"+time * 10+" points",Toast.LENGTH_SHORT);
+
             final Toast score_toast = Toast.makeText(this, "+" + time * 10 + " points", Toast.LENGTH_SHORT);
             score_toast.show();
             Handler handler = new Handler();
@@ -257,8 +303,9 @@ public class FlagActivity extends AppCompatActivity {
             answerButton.setBackgroundColor(Color.GREEN);
             Log.d("check_tag", "correct!");
         } else {
+            // If this is not the correct answer, add the answer to the list of incorrect answers
+            // and make the button RED for the period of 1.0 second
             incorrect_str.add("Flag of "+object_name);
-            Log.d("check_tag", "not correct");
             answerButton.setBackgroundColor(Color.RED);
 
             String[] buttonNames = {"A", "B", "C", "D"};
@@ -289,10 +336,8 @@ public class FlagActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                // check next
                 checkFlagNext();
             }
-
         }.start();
     }
 }

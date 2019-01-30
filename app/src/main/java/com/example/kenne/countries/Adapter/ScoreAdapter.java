@@ -1,3 +1,12 @@
+/*
+ScoreAdapter.java
+
+This adapter will get the player name, score, percentage and regions of a score and will put it in
+in the format of score_items.xml (R.layout.score_items).
+
+@ author        Kennet Botan
+*/
+
 package com.example.kenne.countries.Adapter;
 
 import android.content.Context;
@@ -30,7 +39,6 @@ public class ScoreAdapter extends ArrayAdapter {
         int score = scoreItems.get(position).getScore();
         int percentage = scoreItems.get(position).getPercentage();
         String regions = scoreItems.get(position).getRegions_str();
-
 
 
         if (convertView == null) {

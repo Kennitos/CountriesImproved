@@ -1,3 +1,13 @@
+/*
+CountriesRequest.java
+
+This CountriesRequest class will get all the countries from the REST API (https://restcountries.eu/rest/v2/all).
+It will create an ArrayList<Countries> of all the countries. With a Callback this request is called
+from within another activity.
+
+@ author        Kennet Botan
+*/
+
 package com.example.kenne.countries.Request;
 
 import android.content.Context;
@@ -17,27 +27,29 @@ import java.util.ArrayList;
 
 public class CountriesRequest implements Response.Listener<JSONArray>, Response.ErrorListener{
 
-    private Context context;
-    private Callback activity; // option to remove private
+    // Create the variables that will be used through the whole activity;
+    Context context;
+    Callback activity;
 
 
     public interface Callback {
-        //void gotCountries(ArrayList<Country> Countries);
         void gotCountries(ArrayList<Country> countries);
         void gotCountriesError(String message);
     }
 
+    // Constructor
     public CountriesRequest(Context context_input) {
         context = context_input;
     }
 
     @Override
     public void onResponse(JSONArray response) {
-        Log.d("connect_test","Runt onResponse");
-        Log.d("connect_test","Length of response: "+response.length());
+
+        // Create the ArrayList where all countries will go into
         ArrayList<Country> CountriesArray = new ArrayList();
         try {
             for (int i = 0; i < response.length(); i++) {
+                // Get the JSONObject and get all characteristics from it
                 JSONObject countryObject = response.getJSONObject(i);
                 String name = countryObject.getString("name");
                 String capital = countryObject.getString("capital");
@@ -55,7 +67,7 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                 JSONArray coor = countryObject.getJSONArray("latlng");
                 double[] coor_numbers = new double[coor.length()];
 
-                // Extract numbers from JSON array.
+                // Extract coordinate numbers from JSON array.
                 for (int c = 0; c < coor.length(); ++c) {
                     coor_numbers[c] = coor.optDouble(c);
                 }
@@ -70,10 +82,11 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                     languages.add(languageName);
                 }
 
+                // Create a variable country and put it into the ArrayList<Country>
                 Country countryInput = new Country(name, capital, iso, region, subregion, area, population, flag, languages, lat, lng);
-                Log.d("connect_test",""+i+' '+countryInput.getName()+coor+coor_numbers);
                 CountriesArray.add(countryInput);
             }
+            // Put the ArrayList<Country> in the activity
             activity.gotCountries(CountriesArray);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -83,12 +96,10 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
 
     @Override
     public void onErrorResponse(VolleyError error){
-        Log.d("connect_test","Runt onErrorResponse");
+        error.printStackTrace();
     }
 
-
     public void getCountries(Callback activity){
-        Log.d("connect_test","Runt getCountries");
         this.activity = activity;
         String url = "https://restcountries.eu/rest/v2/all";
         RequestQueue queue = Volley.newRequestQueue(context);

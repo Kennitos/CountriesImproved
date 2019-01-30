@@ -1,3 +1,13 @@
+/*
+PostScoreRequest.java
+
+This PostScoreRequest will create request to post the score using a Map<String, String> combination.
+It was not possible to post a <String, JSONArray> combination. Therefore the ArrayLists regions,
+correct and incorrect will be posted as strings of an ArrayList.
+
+@ author        Kennet Botan
+*/
+
 package com.example.kenne.countries.Request;
 
 import com.android.volley.Response;
@@ -12,6 +22,7 @@ import java.util.Map;
 
 public class PostScoreRequest extends StringRequest {
 
+    // Create the variables that will be used through the whole activity;
     ScoreItem scoreItem;
 
     // Constructor
@@ -24,7 +35,6 @@ public class PostScoreRequest extends StringRequest {
     @Override
     protected Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
-        JSONObject jsonParams = new JSONObject();
 
         // Naming the variables
         String name = scoreItem.getPlayer_name();
@@ -35,13 +45,6 @@ public class PostScoreRequest extends StringRequest {
         ArrayList<String> correct = scoreItem.getCorrect();
         ArrayList<String> incorrect = scoreItem.getIncorrect();
 
-//        JSONArray jsonRegionsArray = new JSONArray();
-//        for(String r : regions) { jsonRegionsArray.put(r); }
-//        JSONArray jsonCorrectArray = new JSONArray();
-//        for(Country c : correct) { jsonCorrectArray.put(c.getName()); }
-//        JSONArray jsonIncorrectArray = new JSONArray();
-//        for(Country c : incorrect) { jsonIncorrectArray.put(c.getName()); }
-
         // Putting the variables in the parameters
         params.put("name", name);
         params.put("score", String.valueOf(sc));
@@ -51,6 +54,7 @@ public class PostScoreRequest extends StringRequest {
         params.put("correct", correct+"");
         params.put("incorrect",incorrect+"");
 
+        // return the params with all the values into it
         return params;
     }
 }

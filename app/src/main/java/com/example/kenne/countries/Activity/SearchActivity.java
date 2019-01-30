@@ -1,5 +1,15 @@
-package com.example.kenne.countries.Activity;
+/*
+SearchActivity.java
 
+This activity lets the user search for a particular country. This user is helped by this task with a
+autocompletion, therefore the user won't have to type the whole literal string (more user friendly).
+When the user taps on the one of the autocompletion suggestions, he will be automatically be directed
+to the next activity (CountryDetailActivity).
+
+@ author        Kennet Botan
+*/
+
+package com.example.kenne.countries.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +32,7 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
-    ArrayList<String> COUNTRIES_STRING = new ArrayList<>();
+    // Create the variables that will be used through the whole activity;
     ArrayList<Country> COUNTRIES;
 
     @Override
@@ -30,20 +40,17 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        // Get the intent
         Intent intent = getIntent();
         COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
-        Log.d("all_names","ArrayList"+COUNTRIES);
 
-//        Create a second ArrayList besides COUNTRIES, but with strings as type instead of objects
-        for(int i = 0; i < COUNTRIES.size(); i++){
-            String name = COUNTRIES.get(i).getName();
-            COUNTRIES_STRING.add(name);
-        }
-
+        // Create an adapter for the autocompletion
         AutoCompleteTextView editText = findViewById(R.id.autoCompleteCountry);
         ArrayAdapter<Country> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, COUNTRIES);
         editText.setAdapter(adapter);
+        // Set an OnItemClickListener, this will save the country that was clicked and redirect the
+        // user to a new activity (CountryDetailActivity) with that country in the intent.
         editText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -52,6 +59,8 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("selected_country",selected);
                 intent.putExtra("countries",COUNTRIES);
 
+                // Close the keyboard if a country is selected and on the verge of going to the new
+                // activity
                 View v = getCurrentFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(),0);
@@ -61,19 +70,15 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // Open the keyboard when this activity is created
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
-
-//        View v = getCurrentFocus();
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(v.getWindowToken(),0);
     }
 
     @Override
     protected void onResume() {
-//      clear the text, because of this when you return to this page the EditText will be empty
-//      instead of being filled with the previous country
-//      Log.d("clear_test","edit now clear");
+        // clear the text, because of this when you return to this page the EditText will be empty
+        // instead of being filled with the previous country
         super.onResume();
         AutoCompleteTextView editText = findViewById(R.id.autoCompleteCountry);
         editText.setText("");
@@ -81,20 +86,10 @@ public class SearchActivity extends AppCompatActivity {
 
 
     public void goToCountryDetail(View view){
-        EditText edit = findViewById(R.id.autoCompleteCountry);
-        String countryInput = edit.getText().toString();
-        Log.d("all_names",""+countryInput+' '+ COUNTRIES_STRING.contains(countryInput));
-
-        // check if countryInput is in the ArrayList
-        if(COUNTRIES_STRING.contains(countryInput)){
-            Intent intent = new Intent(this, CountryDetailActivity.class);
-            intent.putExtra("country_name",countryInput);
-            startActivity(intent);
-        }
-        else{
-            Toast.makeText(this,"This country doesn't exist",Toast.LENGTH_LONG).show();
-            Toast.makeText(this,"Try again",Toast.LENGTH_LONG).show();
-        }
+        // When pressing on the button 'search', this Toast will always be showed. The user must
+        // tap on one of the suggestions. Unfortunately this must be forced on the user, since this
+        // will guarantee the a Country is selected instead of a String.
+        Toast.makeText(this,"Tap on a country from the suggestions",Toast.LENGTH_LONG).show();
     }
 
 }

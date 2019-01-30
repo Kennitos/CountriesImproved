@@ -1,3 +1,5 @@
+
+
 package com.example.kenne.countries;
 
 import android.content.Intent;
@@ -53,7 +55,6 @@ public class QuizActivity extends AppCompatActivity {
         // if it does not exist, do plan b (create a new quiz)
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            Log.d("check_flag","check0");
             if (extras.containsKey("continue_quiz")) {
                 String jsonArray = intent.getStringExtra("continue_quiz");
                 score = intent.getIntExtra("score",0);
@@ -72,29 +73,26 @@ public class QuizActivity extends AppCompatActivity {
             }
             else {
                 regions = intent.getStringArrayListExtra("regions");
-                // skip the DifficultyActivity, so
+
                 ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
-//                String type = intent.getStringArrayListExtra("difficulty").get(0);
-//                String difficulty = intent.getStringArrayListExtra("difficulty").get(1);
                 COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
 
-                Quiz testQuiz = new Quiz("open","easy",regions,characteristics,COUNTRIES);
+                Quiz testQuiz = new Quiz(regions,characteristics,COUNTRIES);
                 testQuiz.selectCountries();
                 allQuestions = testQuiz.selectComplete(10);
 
                 score = 0;
                 questionIndex = 0;
-                Log.d("check_flag","check1");
+
                 try {
                     JSONObject current_object = (JSONObject) allQuestions.get(questionIndex);
                     String question_type = current_object.getString("type");
-                    Log.d("check_flag","check2"+question_type);
                     if(question_type.equals("img")){
                         object_name = current_object.getString("name");
                         object_region = current_object.getString("region");
                         object_subregion = current_object.getString("subregion");
                         object_iso = current_object.getString("iso");
-                        Log.d("check_flag","check3"+object_name+object_region+object_subregion+object_iso);
+
 
                         EncryptionMD5 createString = new EncryptionMD5(object_name, object_region, object_subregion);
                         complete_url = createString.CreateEncryption();
@@ -167,20 +165,15 @@ public class QuizActivity extends AppCompatActivity {
         TextView scoreView = findViewById(R.id.scoreView);
         final TextView timeView = findViewById(R.id.timeView);
 
-        Button button_a = findViewById(R.id.aButton);
-        Button button_b = findViewById(R.id.bButton);
-        Button button_c = findViewById(R.id.cButton);
-        Button button_d = findViewById(R.id.dButton);
+        final Button button_a = findViewById(R.id.aButton);
+        final Button button_b = findViewById(R.id.bButton);
+        final Button button_c = findViewById(R.id.cButton);
+        final Button button_d = findViewById(R.id.dButton);
 
         button_a.setBackgroundColor(Color.parseColor("#D100574B"));
         button_b.setBackgroundColor(Color.parseColor("#D100574B"));
         button_c.setBackgroundColor(Color.parseColor("#D100574B"));
         button_d.setBackgroundColor(Color.parseColor("#D100574B"));
-
-        button_a.setEnabled(true);
-        button_b.setEnabled(true);
-        button_c.setEnabled(true);
-        button_d.setEnabled(true);
 
         try {
             current_object = (JSONObject) allQuestions.get(index);
@@ -213,13 +206,6 @@ public class QuizActivity extends AppCompatActivity {
         complete_url = createString.CreateEncryption();
         // https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Netherlands_in_Europe.svg/1051px-Netherlands_in_Europe.svg.png
 
-//        if(object_subregion.equals("South America")){
-//            Picasso.get().load(complete_url).into(imageView);
-//        } else {
-//            Picasso.get().load(complete_url).resize(650, 650).into(imageView);
-//        }
-//        Picasso.get().load(complete_url).resize(650, 650).into(imageView);
-        // removed .centerCrop()
 
         countdown = new CountDownTimer(11000, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -255,6 +241,10 @@ public class QuizActivity extends AppCompatActivity {
         Picasso.get().load(complete_url).resize(650, 650).into(imageView, new Callback.EmptyCallback() {
             @Override public void onSuccess() {
                 super.onSuccess();
+                button_a.setEnabled(true);
+                button_b.setEnabled(true);
+                button_c.setEnabled(true);
+                button_d.setEnabled(true);
                 countdown.start();
             }
             @Override
@@ -263,6 +253,10 @@ public class QuizActivity extends AppCompatActivity {
                 img_url = "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/"+object_iso+"/512.png";
                 Picasso.get().load(img_url).centerCrop().resize(512, 512).into(imageView);
                 Toast.makeText(getApplicationContext(),"substitution image",Toast.LENGTH_SHORT).show();
+                button_a.setEnabled(true);
+                button_b.setEnabled(true);
+                button_c.setEnabled(true);
+                button_d.setEnabled(true);
                 countdown.start();
             }
         });
