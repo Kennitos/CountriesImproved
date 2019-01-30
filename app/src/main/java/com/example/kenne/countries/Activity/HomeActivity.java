@@ -1,4 +1,4 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.kenne.countries.Object.Country;
+import com.example.kenne.countries.R;
+import com.example.kenne.countries.Request.CountriesRequest;
 
 import java.util.ArrayList;
 

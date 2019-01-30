@@ -1,4 +1,4 @@
-package com.example.kenne.countries;
+package com.example.kenne.countries.Object;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
