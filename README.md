@@ -70,10 +70,10 @@ Those three characteristics can be derived from the REST Countries API. The link
 
 For example https://raw.githubusercontent.com/djaiss/mapsicon/master/europe/nl/1024.png
 
-- Wikipedia images for the map of countries
+-Wikipedia images for the map of countries
 The new datasource use MD5 encrytion for the string "{county_name}\_in\_{region}.svg" and uses the first two letters of that encryption:
 
--
+-Flags of countries were provide by the site: https://www.countryflags.io
 
 
 ### External components
