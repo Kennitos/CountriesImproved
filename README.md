@@ -59,14 +59,26 @@ Optional part:
 ### Data Source
 
 
-The characteristics of the countries (name, capital, languages, population, flag) are acquired through the REST Countries API. Information can be found at their [homepage](https://restcountries.eu/).
-The weather information will be acquired through Open Weather Map [here](https://openweathermap.org/api) and the images of the countries can be found [here](https://restcountries.eu/).
+-The characteristics of the countries (name, capital, languages, population, flag) are acquired through the REST Countries API. Information can be found at their [homepage](https://restcountries.eu/).
+
+-The weather information will be acquired through Open Weather Map [here](https://openweathermap.org/api) and the images of the countries can be found [here](https://restcountries.eu/).
+
+-Maps of each individual country [link](https://github.com/djaiss/mapsicon)
+<br>The maps are png files and are stored on an unique link. The link is based on their region, official two-letter country codes (defined in ISO 3166-1) and file size.
+Those three characteristics can be derived from the REST Countries API. The links will have the following structure:
+> https://raw.githubusercontent.com/djaiss/mapsicon/master/{region}/{iso}/{size}.png
+
+For example https://raw.githubusercontent.com/djaiss/mapsicon/master/europe/nl/1024.png
+
+- Wikipedia images for the map of countries
+The new datasource use MD5 encrytion for the string "{county_name}\_in\_{region}.svg" and uses the first two letters of that encryption:
+
+-
 
 
 ### External components
 
-
-I might use SQLite to save de quiz scores online into a database or I would need a server to store these values.
+I used the REST data server from: https://github.com/stgm/rester
 
 ### Review of similar apps/visualizations
 
