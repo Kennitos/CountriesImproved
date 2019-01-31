@@ -13,6 +13,7 @@ When trying to learn new countries and their characteristics there are many geog
 
 
 ## Solution
+Screencast link: https://www.youtube.com/watch?v=1TiFTgC4io4&t=19s
 
 ### Description and visualization
 
