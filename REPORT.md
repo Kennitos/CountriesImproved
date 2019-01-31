@@ -9,7 +9,8 @@ This application lets the user search for the characteristics of a country, comp
 ## Technical design
 
 ## Advanced sketches
-![](doc/)
+<img src="https://github.com/Kennitos/Countries/blob/master/doc/overview_quiz.png" width="800" height="600">
+<img src="https://github.com/Kennitos/Countries/blob/master/doc/overview_search.png" width="1500" height="600">
 
 ## Diagram of utility modules, classes and functions
 These are the diagrams of the most import parts of the application. I did not include everthing some classes look very alike, for example the different request. The same goes for very simple objects like DummyIntegers or MD5Encryption
