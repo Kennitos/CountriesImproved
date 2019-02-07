@@ -130,6 +130,19 @@ public class FlagActivity extends AppCompatActivity {
         }
     }
 
+    // This function will stop the CountDownTimer (if it has ben started), preventing the countdouwn
+    // to continue after the user pressed the back button.
+    @Override
+    public void onStop() {
+        super.onStop();
+        try{
+            countdown.cancel();
+        } catch (Error e){
+            e.printStackTrace();
+        }
+        this.finish();
+    }
+
     // This function will load the activity with the all the values of the question
     // For example the TextView for the String of the question will set, etc.
     public void loadAfterFlag(int index) {

@@ -22,13 +22,11 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.kenne.countries.Activity.CurrentScoreActivity;
 import com.example.kenne.countries.Object.Country;
 import com.example.kenne.countries.Object.Quiz;
@@ -40,7 +38,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class QuizActivity extends AppCompatActivity {
@@ -82,7 +79,6 @@ public class QuizActivity extends AppCompatActivity {
                 regions = intent.getStringArrayListExtra("regions");
                 try {
                     allQuestions = new JSONArray(jsonArray);
-                    Log.d("check_check",""+allQuestions);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -94,14 +90,13 @@ public class QuizActivity extends AppCompatActivity {
                 ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
                 COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
 
-                Log.d("check_check111",""+regions+characteristics+COUNTRIES);
                 Quiz testQuiz = new Quiz(regions,characteristics,COUNTRIES);
                 testQuiz.selectCountries();
                 allQuestions = testQuiz.selectComplete(10);
 
                 score = 0;
                 questionIndex = 0;
-                Log.d("check_check",""+allQuestions);
+
                 try {
                     JSONObject current_object = (JSONObject) allQuestions.get(questionIndex);
                     String question_type = current_object.getString("type");
@@ -171,6 +166,8 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    // This function will stop the CountDownTimer (if it has ben started), preventing the countdouwn
+    // to continue after the user pressed the back button.
     @Override
     public void onStop() {
         super.onStop();
