@@ -17,19 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Country implements Serializable {
-    private String name, capital, iso, region, subregion, flag;
+    private String name, capital, iso2, iso3, region, subregion, flag;
     private int area, population;
     private Double lat, lng;
     private ArrayList<String> languages;
 
 
     // Constructor
-    public Country(String name, String capital, String iso, String region, String subregion,
+    public Country(String name, String capital, String iso2, String iso3, String region, String subregion,
                    int area, int population, String flag, ArrayList<String> languages, Double lat,
                    Double lng){
         this.name = name;
         this.capital = capital;
-        this.iso = iso;
+        this.iso2 = iso2;
+        this.iso3 = iso3;
         this.region = region;
         this.subregion = subregion;
         this.area = area;
@@ -55,9 +56,11 @@ public class Country implements Serializable {
         return capital;
     }
 
-    public String getIso() {
-        return iso;
+    public String getIso2() {
+        return iso2;
     }
+
+    public String getIso3() { return iso3; }
 
     public String getRegion() {
         return region;

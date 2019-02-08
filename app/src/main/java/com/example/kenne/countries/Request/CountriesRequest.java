@@ -56,7 +56,8 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                 if(capital.equals("")){
                     capital = "It has no capital";
                 }
-                String iso = countryObject.getString("alpha2Code").toLowerCase();
+                String iso2 = countryObject.getString("alpha2Code").toLowerCase();
+                String iso3 = countryObject.getString("alpha3Code").toLowerCase();
                 String region = countryObject.getString("region");
                 String subregion = countryObject.getString("subregion");
                 String flag = countryObject.getString("flag");
@@ -83,7 +84,7 @@ public class CountriesRequest implements Response.Listener<JSONArray>, Response.
                 }
 
                 // Create a variable country and put it into the ArrayList<Country>
-                Country countryInput = new Country(name, capital, iso, region, subregion, area, population, flag, languages, lat, lng);
+                Country countryInput = new Country(name, capital, iso2, iso3, region, subregion, area, population, flag, languages, lat, lng);
                 CountriesArray.add(countryInput);
             }
             // Put the ArrayList<Country> in the activity

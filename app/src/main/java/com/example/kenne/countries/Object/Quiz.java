@@ -11,6 +11,8 @@ JSONArray format.
 
 package com.example.kenne.countries.Object;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,11 +24,13 @@ public class Quiz implements Serializable {
     private ArrayList<String> regions, characteristics;
     private ArrayList<Country> countries;
     private ArrayList<Country> quiz_countries;
+    private String difficulty;
 
     // Constructor
-    public Quiz(ArrayList<String> regions, ArrayList<String> characteristics, ArrayList<Country> countries){
+    public Quiz(ArrayList<String> regions, ArrayList<String> characteristics, String difficulty, ArrayList<Country> countries){
         this.regions = regions;
         this.characteristics = characteristics;
+        this.difficulty = difficulty;
         this.countries = countries;
     }
 
@@ -47,6 +51,20 @@ public class Quiz implements Serializable {
             }
         }
         return  quiz_countries;
+    }
+
+    // Create 'dummy' countries for a country based on the difficulty of the quiz.
+    // Easy - random countries of the same region.
+    // Medium - random countries on the same subregion
+    // Hard - random neighbouring countries (use characteristic 'borders')
+    // If no borders (probably an Island) - other random countries with no borders in region/subregion
+
+    public int selectDifficulty(){
+        int k = 0;
+        if(difficulty.equals("easy")){
+            k = 1;
+        }
+        return k;
     }
 
     // Select all countries of based on their characteristic of the already selected countries prior
@@ -85,22 +103,25 @@ public class Quiz implements Serializable {
                     }
                 }
                 Collections.shuffle(answerList);
-
-                JSONObject entry = new JSONObject();
-                try {
-                    entry.put("id",y);
-                    entry.put("name",random.getName());
-                    entry.put("region",random.getRegion());
-                    entry.put("subregion",random.getSubregion());
-                    entry.put("iso",random.getIso());
-                    entry.put("type","string");
-                    entry.put("question",question);
-                    entry.put("correct",correct);
-                    entry.put("answers", new JSONArray(answerList));
-                    allQuestionsArray.put(entry);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                QuestionEntry questionEntry = new QuestionEntry(y,random.getName(),random.getRegion(),random.getSubregion()
+                        ,random.getIso2(),random.getIso3(),"string",question, correct,new JSONArray(answerList));
+                allQuestionsArray.put(questionEntry);
+                Log.d("check_array",""+allQuestionsArray);
+//                JSONObject entry = new JSONObject();
+//                try {
+//                    entry.put("id",y);
+//                    entry.put("name",random.getName());
+//                    entry.put("region",random.getRegion());
+//                    entry.put("subregion",random.getSubregion());
+//                    entry.put("iso",random.getIso2());
+//                    entry.put("type","string");
+//                    entry.put("question",question);
+//                    entry.put("correct",correct);
+//                    entry.put("answers", new JSONArray(answerList));
+//                    allQuestionsArray.put(entry);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
 
                 y += 1;
             }
@@ -128,7 +149,7 @@ public class Quiz implements Serializable {
                     entry.put("name",random.getName());
                     entry.put("region",random.getRegion());
                     entry.put("subregion",random.getSubregion());
-                    entry.put("iso",random.getIso());
+                    entry.put("iso",random.getIso2());
                     entry.put("type","string");
                     entry.put("question",question);
                     entry.put("correct",correct);
@@ -154,7 +175,7 @@ public class Quiz implements Serializable {
                     entry.put("name",random.getName());
                     entry.put("region",random.getRegion());
                     entry.put("subregion",random.getSubregion());
-                    entry.put("iso",random.getIso());
+                    entry.put("iso",random.getIso2());
                     entry.put("type","pop");
                     entry.put("question",question);
                     entry.put("correct",correct_int);
@@ -179,7 +200,7 @@ public class Quiz implements Serializable {
                     entry.put("name",random.getName());
                     entry.put("region",random.getRegion());
                     entry.put("subregion",random.getSubregion());
-                    entry.put("iso",random.getIso());
+                    entry.put("iso",random.getIso2());
                     entry.put("type","area");
                     entry.put("question",question);
                     entry.put("correct",correct_int);
@@ -192,13 +213,13 @@ public class Quiz implements Serializable {
             }
             if(characteristics.contains("flag")){
                 String question = "What is the the flag of "+random.getName()+"?";
-                String correct_url = "https://www.countryflags.io/"+random.getIso()+"/flat/64.png";
+                String correct_url = "https://www.countryflags.io/"+random.getIso2()+"/flat/64.png";
 
                 Collections.shuffle(random_order);
                 ArrayList<String> answerList = new ArrayList<>();
                 answerList.add(correct_url);
                 for (int c = 0; c < 6; c++) {
-                    String answer_url = "https://www.countryflags.io/"+random_order.get(c).getIso()+"/flat/64.png";
+                    String answer_url = "https://www.countryflags.io/"+random_order.get(c).getIso2()+"/flat/64.png";
                     if (!answerList.contains(answer_url)) {
                         if(answerList.size()<4) {
                             answerList.add(answer_url);
@@ -213,7 +234,7 @@ public class Quiz implements Serializable {
                     entry.put("name",random.getName());
                     entry.put("region",random.getRegion());
                     entry.put("subregion",random.getSubregion());
-                    entry.put("iso",random.getIso());
+                    entry.put("iso",random.getIso2());
                     entry.put("type","img");
                     entry.put("question",question);
                     entry.put("correct",correct_url);

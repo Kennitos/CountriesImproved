@@ -90,7 +90,7 @@ public class QuizActivity extends AppCompatActivity {
                 ArrayList<String> characteristics = intent.getStringArrayListExtra("characteristics");
                 COUNTRIES = (ArrayList) intent.getStringArrayListExtra("countries");
 
-                Quiz testQuiz = new Quiz(regions,characteristics,COUNTRIES);
+                Quiz testQuiz = new Quiz(regions,characteristics,"easy",COUNTRIES);
                 testQuiz.selectCountries();
                 allQuestions = testQuiz.selectComplete(10);
 

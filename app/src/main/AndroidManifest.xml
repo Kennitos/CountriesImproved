@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.HomeActivity"
+        <activity
+            android:name=".Activity.HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,24 +22,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.RegionCharActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".QuizActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.SearchActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DetailActivity.CountryDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.CurrentScoreActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.CompareActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DetailActivity.CompareCountryDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.ScoresActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FlagActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.RegionCharActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QuizActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailActivity.CountryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.CurrentScoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.CompareActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailActivity.CompareCountryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ScoresActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FlagActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activity.DifficultyActivity"></activity>
     </application>
 
 </manifest>
